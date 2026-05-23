@@ -227,7 +227,7 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
   <div class="period-bar">
     <div class="period-btn" onclick="setPeriod('dia', this)">Hoje</div><div class="period-btn" onclick="setPeriod('semana', this)">Semana</div>
     <div class="period-btn active" onclick="setPeriod('mes', this)">Mes</div><div class="period-btn" onclick="setPeriod('ano', this)">Ano</div>
-    <div class="period-custom" onclick="openDateFilter()">&#128197; <span id="dateRangeLabel">01-24 mai</span></div>
+    <div class="period-custom" onclick="openDateFilter()">&#128197; <span id="dateRangeLabel">01-23 mai</span></div>
   </div>
   <div class="dash-content">
     <div class="kpi-grid">
@@ -481,7 +481,7 @@ async function dbDelete(date, barbeiro, slot) {
 }
 
 // ── DATE STATE ──────────────────────────────────────────
-var currentDate = new Date(2025, 4, 24); // May 24 2025
+var currentDate = new Date(2026, 4, 23); // May 23 2026
 var DAYS_PT = ['Domingo','Segunda','Terca','Quarta','Quinta','Sexta','Sabado'];
 var MONTHS_PT = ['janeiro','fevereiro','marco','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
 
