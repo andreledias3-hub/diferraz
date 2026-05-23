@@ -51,7 +51,7 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 .sum-item{flex:1;padding:10px 0;text-align:center;border-right:1px solid var(--border)}
 .sum-item:last-child{border-right:none}
 .sum-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.sum-value{font-size:16px;font-weight:600;color:var(--gold);font-family:'Playfair Display',serif;margin-top:2px}
+.sum-value{font-size:16px;font-weight:600;color:var(--gold);font-family:'DM Sans',sans-serif;margin-top:2px}
 .sum-value.n{color:var(--text)}
 
 /* AGENDA GRID */
@@ -121,7 +121,7 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 .svc-item.sel .svc-price{color:var(--gold)}
 .total-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
 .total-label{font-size:13px;color:var(--muted)}
-.total-input{font-family:'Playfair Display',serif;font-size:26px;color:var(--gold);background:transparent;border:none;outline:none;text-align:right;width:160px}
+.total-input{font-family:'DM Sans',sans-serif;font-size:26px;color:var(--gold);background:transparent;border:none;outline:none;text-align:right;width:160px}
 .modal-footer{padding:12px 20px 20px;display:flex;gap:10px}
 .btn-cancel{flex:1;padding:14px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer}
 .btn-save{flex:2;padding:14px;border-radius:12px;background:var(--gold);border:none;color:var(--black);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer}
@@ -139,7 +139,7 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 .kpi-card.gold::before{background:var(--gold)}.kpi-card.blue::before{background:var(--blue)}
 .kpi-card.green::before{background:var(--green)}.kpi-card.red::before{background:var(--red)}
 .kpi-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
-.kpi-value{font-family:'Playfair Display',serif;font-size:24px;line-height:1;color:var(--white)}
+.kpi-value{font-family:'DM Sans',sans-serif;font-size:24px;line-height:1;color:var(--white)}
 .kpi-value.gold-c{color:var(--gold)}
 .kpi-delta{display:inline-block;font-size:11px;font-weight:600;padding:2px 7px;border-radius:6px;margin-top:6px}
 .kpi-delta.up{background:rgba(106,191,124,.15);color:var(--green)}
@@ -157,7 +157,7 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 .barber-card-name{font-size:13px;font-weight:600;color:var(--text)}
 .barber-stat{margin-bottom:8px}
 .barber-stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
-.barber-stat-val{font-family:'Playfair Display',serif;font-size:18px}
+.barber-stat-val{font-family:'DM Sans',sans-serif;font-size:18px}
 .barber-stat-val.gold{color:var(--gold)}.barber-stat-val.neutral{color:var(--text)}
 .bar-track{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-top:10px}
 .bar-fill{height:100%;border-radius:3px}
@@ -237,7 +237,7 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
       <div class="kpi-card red"><div class="kpi-label">Novos / Fixos</div><div class="kpi-value" style="font-size:20px">0 <span style="color:var(--muted);font-size:14px">/ 0</span></div><div class="kpi-sub">0% novos - 0% fixos</div></div>
     </div>
     <div class="chart-card">
-      <div class="chart-header"><div><div class="chart-title">Evolucao do faturamento</div><div class="chart-sub">Maio 2025</div></div><span class="chart-badge">+18% mes</span></div>
+      <div class=\"chart-header\"><div><div class=\"chart-title\">Evolucao do faturamento</div><div class=\"chart-sub\">Maio 2025</div></div><span class=\"chart-badge\">+0% mes</span></div>
       <div class="chart-wrap"><canvas id="lineChart"></canvas></div>
     </div>
     <div class="chart-card">
@@ -263,28 +263,28 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
       <div class="chart-header"><div><div class="chart-title">Mix de servicos</div><div class="chart-sub">% de saida</div></div></div>
       <div class="chart-wrap" style="height:160px"><canvas id="pieServ"></canvas></div>
       <div class="pie-legend">
-        <div class="pie-item"><div class="pie-dot" style="background:var(--gold)"></div><span class="pie-label">Corte</span><span class="pie-pct">48%</span></div>
-        <div class="pie-item"><div class="pie-dot" style="background:var(--blue)"></div><span class="pie-label">Barba</span><span class="pie-pct">32%</span></div>
-        <div class="pie-item"><div class="pie-dot" style="background:var(--green)"></div><span class="pie-label">Pezinho</span><span class="pie-pct">13%</span></div>
-        <div class="pie-item"><div class="pie-dot" style="background:var(--red)"></div><span class="pie-label">Sobrancelha</span><span class="pie-pct">7%</span></div>
+        <div class="pie-item"><div class="pie-dot" style="background:var(--gold)"></div><span class="pie-label">Corte</span><span class="pie-pct">0%</span></div>
+        <div class="pie-item"><div class="pie-dot" style="background:var(--blue)"></div><span class="pie-label">Barba</span><span class="pie-pct">0%</span></div>
+        <div class="pie-item"><div class="pie-dot" style="background:var(--green)"></div><span class="pie-label">Pezinho</span><span class="pie-pct">0%</span></div>
+        <div class="pie-item"><div class="pie-dot" style="background:var(--red)"></div><span class="pie-label">Sobrancelha</span><span class="pie-pct">0%</span></div>
       </div>
     </div>
     <div class="chart-card">
       <div class="chart-header"><div><div class="chart-title">Meios de pagamento</div><div class="chart-sub">Preferencia dos clientes</div></div></div>
       <div class="pgto-list">
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--green)"></div><span class="pgto-label">Pix</span><span class="pgto-pct">52%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:52%;background:var(--green)"></div></div></div>
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--blue)"></div><span class="pgto-label">Credito</span><span class="pgto-pct">24%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:24%;background:var(--blue)"></div></div></div>
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--gold)"></div><span class="pgto-label">Dinheiro</span><span class="pgto-pct">16%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:16%;background:var(--gold)"></div></div></div>
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--red)"></div><span class="pgto-label">Debito</span><span class="pgto-pct">8%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:8%;background:var(--red)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--green)"></div><span class="pgto-label">Pix</span><span class="pgto-pct">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:0%;background:var(--green)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--blue)"></div><span class="pgto-label">Credito</span><span class="pgto-pct">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:0%;background:var(--blue)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--gold)"></div><span class="pgto-label">Dinheiro</span><span class="pgto-pct">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:0%;background:var(--gold)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--red)"></div><span class="pgto-label">Debito</span><span class="pgto-pct">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:0%;background:var(--red)"></div></div></div>
       </div>
     </div>
     <div class="chart-card">
       <div class="chart-header"><div><div class="chart-title">Produtos vendidos</div><div class="chart-sub">% de saida por produto</div></div></div>
       <div class="pgto-list">
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--gold)"></div><span class="pgto-label">Pomada</span><span class="pgto-pct">38%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:38%;background:var(--gold)"></div></div></div>
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--purple)"></div><span class="pgto-label">Balm</span><span class="pgto-pct">28%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:28%;background:var(--purple)"></div></div></div>
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--teal)"></div><span class="pgto-label">Oleo</span><span class="pgto-pct">22%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:22%;background:var(--teal)"></div></div></div>
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--green)"></div><span class="pgto-label">Leave-In</span><span class="pgto-pct">12%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:12%;background:var(--green)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--gold)"></div><span class="pgto-label">Pomada</span><span class="pgto-pct">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:0%;background:var(--gold)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--purple)"></div><span class="pgto-label">Balm</span><span class="pgto-pct">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:0%;background:var(--purple)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--teal)"></div><span class="pgto-label">Oleo</span><span class="pgto-pct">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:0%;background:var(--teal)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--green)"></div><span class="pgto-label">Leave-In</span><span class="pgto-pct">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:0%;background:var(--green)"></div></div></div>
       </div>
     </div>
   </div>
