@@ -231,10 +231,10 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
   </div>
   <div class="dash-content">
     <div class="kpi-grid">
-      <div class="kpi-card gold"><div class="kpi-label">Faturamento</div><div class="kpi-value gold-c">R$ 8.340</div><span class="kpi-delta up">+18%</span></div>
-      <div class="kpi-card blue"><div class="kpi-label">Atendimentos</div><div class="kpi-value">114</div><span class="kpi-delta up">+12</span></div>
-      <div class="kpi-card green"><div class="kpi-label">Ticket medio</div><div class="kpi-value">R$ 73</div><span class="kpi-delta up">+5%</span></div>
-      <div class="kpi-card red"><div class="kpi-label">Novos / Fixos</div><div class="kpi-value" style="font-size:20px">38 <span style="color:var(--muted);font-size:14px">/ 76</span></div><div class="kpi-sub">33% novos - 67% fixos</div></div>
+      <div class="kpi-card gold"><div class="kpi-label">Faturamento</div><div class="kpi-value gold-c">R$ 0</div><span class="kpi-delta up">+0%</span></div>
+      <div class="kpi-card blue"><div class="kpi-label">Atendimentos</div><div class="kpi-value">0</div><span class="kpi-delta up">+0</span></div>
+      <div class="kpi-card green"><div class="kpi-label">Ticket medio</div><div class="kpi-value">R$ 0</div><span class="kpi-delta up">+0%</span></div>
+      <div class="kpi-card red"><div class="kpi-label">Novos / Fixos</div><div class="kpi-value" style="font-size:20px">0 <span style="color:var(--muted);font-size:14px">/ 0</span></div><div class="kpi-sub">0% novos - 0% fixos</div></div>
     </div>
     <div class="chart-card">
       <div class="chart-header"><div><div class="chart-title">Evolucao do faturamento</div><div class="chart-sub">Maio 2025</div></div><span class="chart-badge">+18% mes</span></div>
@@ -248,15 +248,15 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
     <div class="barber-row">
       <div class="barber-card">
         <div class="barber-card-header"><div class="barber-dot" style="background:var(--blue)"></div><span class="barber-card-name">Henrique</span></div>
-        <div class="barber-stat"><div class="barber-stat-label">Faturamento</div><div class="barber-stat-val gold">R$ 4.920</div></div>
-        <div class="barber-stat"><div class="barber-stat-label">Atendimentos</div><div class="barber-stat-val neutral">67</div></div>
-        <div class="bar-track"><div class="bar-fill" style="width:59%;background:var(--blue)"></div></div>
+        <div class="barber-stat"><div class="barber-stat-label">Faturamento</div><div class="barber-stat-val gold">R$ 0</div></div>
+        <div class="barber-stat"><div class="barber-stat-label">Atendimentos</div><div class="barber-stat-val neutral">0</div></div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--blue)"></div></div>
       </div>
       <div class="barber-card">
         <div class="barber-card-header"><div class="barber-dot" style="background:var(--red)"></div><span class="barber-card-name">Betho</span></div>
-        <div class="barber-stat"><div class="barber-stat-label">Faturamento</div><div class="barber-stat-val gold">R$ 3.420</div></div>
-        <div class="barber-stat"><div class="barber-stat-label">Atendimentos</div><div class="barber-stat-val neutral">47</div></div>
-        <div class="bar-track"><div class="bar-fill" style="width:41%;background:var(--red)"></div></div>
+        <div class="barber-stat"><div class="barber-stat-label">Faturamento</div><div class="barber-stat-val gold">R$ 0</div></div>
+        <div class="barber-stat"><div class="barber-stat-label">Atendimentos</div><div class="barber-stat-val neutral">0</div></div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--red)"></div></div>
       </div>
     </div>
     <div class="chart-card">
@@ -509,18 +509,8 @@ function setFilter(filter, el) {
 }
 
 var appts = {
-  h: {
-    2:  { name:'Rafael Mendes',  svc:'Corte + Barba',           price:100, tipo:'fixo', slots:2 },
-    4:  { name:'Bruno Carvalho', svc:'Corte',                    price:50,  tipo:'fixo', slots:1 },
-    6:  { name:'Lucas Ferreira', svc:'Corte + Pomada',           price:80,  tipo:'novo', slots:2 },
-    10: { name:'Andre Souza',    svc:'Corte + Barba',            price:100, tipo:'fixo', slots:2 },
-    13: { name:'Diego Santos',   svc:'Barba',                    price:50,  tipo:'fixo', slots:1 }
-  },
-  b: {
-    3:  { name:'Marcos Oliveira',svc:'Corte + Sobrancelha',      price:60,  tipo:'novo', slots:1 },
-    7:  { name:'Caio Lima',      svc:'Corte + Barba + Pezinho',  price:120, tipo:'fixo', slots:3 },
-    16: { name:'Felipe Costa',   svc:'Corte',                    price:50,  tipo:'novo', slots:1 }
-  }
+  h: {},
+  b: {}
 };
 
 function occupiedSlots(barber) {
@@ -850,7 +840,7 @@ function initCharts() {
   new Chart(document.getElementById('lineChart'),{
     type:'line',
     data:{ labels:['1','3','5','7','9','11','13','15','17','19','21','23'],
-      datasets:[{ data:[280,340,390,310,420,480,350,520,460,580,540,620],
+      datasets:[{ data:[0,0,0,0,0,0,0,0,0,0,0,0],
         borderColor:gold, backgroundColor:'rgba(201,168,76,.08)',
         borderWidth:2, pointRadius:2, pointBackgroundColor:gold, fill:true, tension:.4 }]
     },
@@ -862,7 +852,7 @@ function initCharts() {
   new Chart(document.getElementById('barChart'),{
     type:'bar',
     data:{ labels:['Seg','Ter','Qua','Qui','Sex','Sab'],
-      datasets:[{ data:[310,280,340,320,480,720],
+      datasets:[{ data:[0,0,0,0,0,0],
         backgroundColor:['rgba(106,159,216,.5)','rgba(106,159,216,.5)','rgba(106,159,216,.5)','rgba(106,159,216,.5)','rgba(201,168,76,.6)','rgba(201,168,76,.9)'],
         borderRadius:6, borderWidth:0 }]
     },
@@ -874,7 +864,7 @@ function initCharts() {
   new Chart(document.getElementById('pieServ'),{
     type:'doughnut',
     data:{ labels:['Corte','Barba','Pezinho','Sobrancelha'],
-      datasets:[{ data:[48,32,13,7], backgroundColor:[gold,blue,green,red], borderColor:'#1a1a1a', borderWidth:2 }]
+      datasets:[{ data:[0,0,0,0], backgroundColor:[gold,blue,green,red], borderColor:'#1a1a1a', borderWidth:2 }]
     },
     options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, cutout:'65%' }
   });
