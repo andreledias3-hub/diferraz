@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Di.Ferraz</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<style>
+:root {
+  --black:#0a0a0a; --dark:#111; --card:#1a1a1a; --border:#2a2a2a;
+  --gold:#c9a84c; --gold-dim:rgba(201,168,76,.13);
+  --white:#f5f3ef; --muted:#666; --text:#e8e3d8;
+  --blue:#6a9fd8; --red:#e07060; --green:#6abf7c;
+  --purple:#9b8ec4; --teal:#5bb5d4;
+  --sloth:56px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--black)}
+body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;max-width:430px;margin:0 auto;overflow-x:hidden}
+.screen{display:none}.screen.active{display:block}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:100;background:var(--dark);border-bottom:1px solid var(--border);padding:12px 16px 10px}
+.topbar-row1{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.logo-area{display:flex;align-items:center;gap:8px}
+.logo-mark{width:32px;height:32px;background:var(--gold);border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--black);flex-shrink:0}
+.page-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--white)}
+.btn-novo{background:var(--gold);color:var(--black);border:none;border-radius:8px;padding:8px 14px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer}
+
+/* DATE STRIP */
+.date-strip{display:flex;align-items:center;justify-content:space-between;padding:0 16px 12px;background:var(--dark)}
+.date-arrow{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.date-center{text-align:center}
+.date-main{font-size:14px;font-weight:600;color:var(--text)}
+.date-sub{font-size:11px;color:var(--muted);margin-top:1px}
+
+/* BARBER TABS */
+.barber-tabs{display:flex;gap:8px;padding:12px 16px;background:var(--dark);border-bottom:1px solid var(--border);overflow-x:auto}
+.barber-tabs::-webkit-scrollbar{display:none}
+.barber-tab{flex-shrink:0;padding:6px 16px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--muted);transition:.15s}
+.barber-tab.all.active{background:var(--gold-dim);color:var(--gold);border-color:var(--gold)}
+.barber-tab.h.active{background:rgba(106,159,216,.15);color:var(--blue);border-color:rgba(106,159,216,.5)}
+.barber-tab.b.active{background:rgba(224,112,96,.15);color:var(--red);border-color:rgba(224,112,96,.4)}
+
+/* SUMMARY */
+.summary{display:flex;border-bottom:1px solid var(--border)}
+.sum-item{flex:1;padding:10px 0;text-align:center;border-right:1px solid var(--border)}
+.sum-item:last-child{border-right:none}
+.sum-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.sum-value{font-size:16px;font-weight:600;color:var(--gold);font-family:'Playfair Display',serif;margin-top:2px}
+.sum-value.n{color:var(--text)}
+
+/* AGENDA GRID */
+.agenda-header{display:grid;grid-template-columns:48px 1fr 1fr;border-bottom:2px solid var(--border);background:var(--dark)}
+.ah-time{padding:10px 0;text-align:center;font-size:11px;color:var(--muted)}
+.ah-barber{padding:10px 12px;display:flex;align-items:center;gap:8px;border-left:1px solid var(--border)}
+.ah-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ah-name{font-size:13px;font-weight:600;color:var(--text)}
+.ah-count{font-size:11px;color:var(--muted);margin-left:auto}
+
+.time-row{display:grid;grid-template-columns:48px 1fr 1fr;min-height:var(--sloth)}
+.time-row:not(:last-child){border-bottom:1px solid var(--border)}
+.time-row.half{border-bottom:1px dashed rgba(255,255,255,.06)}
+.tr-time{display:flex;align-items:flex-start;justify-content:flex-end;padding:6px 8px 0 0;font-size:11px;color:var(--muted);font-weight:500}
+.tr-time.dim{color:rgba(102,102,102,.4);font-size:10px}
+.tr-col{border-left:1px solid var(--border);min-height:var(--sloth);position:relative;cursor:pointer;transition:.1s}
+.tr-col.has-appt{cursor:default}
+.tr-col:not(.has-appt):hover::after{content:'+ novo';position:absolute;inset:4px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--gold);opacity:.6;border:1px dashed rgba(201,168,76,.3);border-radius:8px;pointer-events:none}
+
+/* APPT CARD */
+.appt-card{position:absolute;left:4px;right:4px;top:3px;border-radius:10px;overflow:hidden;display:flex;z-index:5;cursor:pointer;transition:.15s}
+.appt-card:active{opacity:.8;transform:scale(.98)}
+.appt-accent{width:4px;flex-shrink:0}
+.appt-accent.blue{background:var(--blue)}
+.appt-accent.red{background:var(--red)}
+.appt-accent.gold{background:var(--gold)}
+.appt-body{flex:1;padding:8px 10px;display:flex;flex-direction:column;justify-content:space-between;min-width:0}
+.appt-body.blue-bg{background:rgba(106,159,216,.18);border:1px solid rgba(106,159,216,.2);border-left:none;border-radius:0 10px 10px 0}
+.appt-body.red-bg{background:rgba(224,112,96,.18);border:1px solid rgba(224,112,96,.2);border-left:none;border-radius:0 10px 10px 0}
+.appt-body.gold-bg{background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.2);border-left:none;border-radius:0 10px 10px 0}
+.appt-name{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.appt-svc{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.appt-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.appt-price{font-size:12px;font-weight:600;color:var(--gold)}
+.appt-dur{font-size:10px;color:var(--muted)}
+.appt-badge{font-size:10px;padding:1px 6px;border-radius:6px;font-weight:500;flex-shrink:0}
+.badge-novo{background:rgba(201,168,76,.15);color:var(--gold)}
+.badge-fixo{background:rgba(106,159,216,.12);color:var(--blue)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:200;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)}
+.modal{background:var(--dark);border:1px solid var(--border);border-radius:20px 20px 0 0;width:100%;max-width:430px;max-height:92vh;overflow-y:auto;padding-bottom:env(safe-area-inset-bottom,20px)}
+.modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0}
+.modal-header{padding:16px 20px 14px;border-bottom:1px solid var(--border)}
+.modal-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--white)}
+.modal-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.modal-body{padding:16px 20px;display:flex;flex-direction:column;gap:14px}
+.field-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.field-input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;outline:none}
+.field-input:focus{border-color:var(--gold)}
+.radio-group{display:flex;gap:8px;flex-wrap:wrap}
+.radio-chip{padding:8px 16px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--muted);transition:.15s;user-select:none}
+.radio-chip.sel{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
+.radio-chip.h-sel{border-color:var(--blue);color:var(--blue);background:rgba(106,159,216,.1)}
+.radio-chip.b-sel{border-color:var(--red);color:var(--red);background:rgba(224,112,96,.1)}
+.time-picker-row{display:flex;gap:8px}
+.time-select{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;outline:none;appearance:none;-webkit-appearance:none;cursor:pointer}
+.time-select:focus{border-color:var(--gold)}
+.time-select option{background:var(--dark)}
+.svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.svc-item{padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--card);cursor:pointer;display:flex;flex-direction:column;gap:4px;transition:.15s;position:relative}
+.svc-item.sel{border-color:var(--gold);background:var(--gold-dim)}
+.svc-check{position:absolute;top:8px;right:8px;width:18px;height:18px;border-radius:5px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;background:var(--card)}
+.svc-item.sel .svc-check{background:var(--gold);border-color:var(--gold);color:var(--black)}
+.svc-name{font-size:13px;font-weight:600;color:var(--text)}
+.svc-price{font-size:12px;color:var(--muted)}
+.svc-item.sel .svc-price{color:var(--gold)}
+.total-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+.total-label{font-size:13px;color:var(--muted)}
+.total-input{font-family:'Playfair Display',serif;font-size:26px;color:var(--gold);background:transparent;border:none;outline:none;text-align:right;width:160px}
+.modal-footer{padding:12px 20px 20px;display:flex;gap:10px}
+.btn-cancel{flex:1;padding:14px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer}
+.btn-save{flex:2;padding:14px;border-radius:12px;background:var(--gold);border:none;color:var(--black);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer}
+
+/* DASHBOARD */
+.period-bar{display:flex;gap:8px;padding:12px 16px;overflow-x:auto;background:var(--dark);border-bottom:1px solid var(--border)}
+.period-bar::-webkit-scrollbar{display:none}
+.period-btn{flex-shrink:0;padding:7px 18px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--muted);transition:.15s}
+.period-btn.active{background:var(--gold-dim);color:var(--gold);border-color:var(--gold)}
+.period-custom{flex-shrink:0;padding:7px 14px;border-radius:20px;font-size:12px;border:1px solid var(--border);background:var(--card);color:var(--muted);display:flex;align-items:center;gap:5px}
+.dash-content{padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;position:relative;overflow:hidden}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:14px 14px 0 0}
+.kpi-card.gold::before{background:var(--gold)}.kpi-card.blue::before{background:var(--blue)}
+.kpi-card.green::before{background:var(--green)}.kpi-card.red::before{background:var(--red)}
+.kpi-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.kpi-value{font-family:'Playfair Display',serif;font-size:24px;line-height:1;color:var(--white)}
+.kpi-value.gold-c{color:var(--gold)}
+.kpi-delta{display:inline-block;font-size:11px;font-weight:600;padding:2px 7px;border-radius:6px;margin-top:6px}
+.kpi-delta.up{background:rgba(106,191,124,.15);color:var(--green)}
+.kpi-sub{font-size:11px;color:var(--muted);margin-top:5px}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px}
+.chart-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.chart-title{font-size:14px;font-weight:600;color:var(--text)}
+.chart-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.chart-badge{font-size:11px;padding:3px 9px;border-radius:6px;background:var(--gold-dim);color:var(--gold);font-weight:500;flex-shrink:0}
+.chart-wrap{position:relative;height:180px}
+.barber-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.barber-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px}
+.barber-card-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.barber-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.barber-card-name{font-size:13px;font-weight:600;color:var(--text)}
+.barber-stat{margin-bottom:8px}
+.barber-stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.barber-stat-val{font-family:'Playfair Display',serif;font-size:18px}
+.barber-stat-val.gold{color:var(--gold)}.barber-stat-val.neutral{color:var(--text)}
+.bar-track{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-top:10px}
+.bar-fill{height:100%;border-radius:3px}
+.pgto-list{display:flex;flex-direction:column;gap:10px}
+.pgto-item{display:flex;align-items:center;gap:10px}
+.pgto-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.pgto-label{font-size:13px;color:var(--text);flex:1}
+.pgto-pct{font-size:13px;font-weight:600;color:var(--gold)}
+.pgto-bar{height:4px;background:var(--border);border-radius:2px;margin-top:3px;overflow:hidden}
+.pgto-bar-fill{height:100%;border-radius:2px}
+.pie-legend{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:12px}
+.pie-item{display:flex;align-items:center;gap:6px}
+.pie-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.pie-label{font-size:12px;color:var(--muted)}
+.pie-pct{font-size:12px;font-weight:600;color:var(--text);margin-left:auto}
+.section-title{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;padding:4px 0}
+
+/* BOTTOM NAV */
+.spacer-bottom{height:72px}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--dark);border-top:1px solid var(--border);display:flex;height:60px;padding-bottom:env(safe-area-inset-bottom,0);z-index:100}
+.nav-tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:var(--muted);font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;transition:.15s}
+.nav-tab.active{color:var(--gold)}
+.nav-tab .icon{font-size:20px}
+</style>
+</head>
+<body>
+
+<!-- AGENDA -->
+<div id="screen-agenda" class="screen active">
+  <div class="topbar">
+    <div class="topbar-row1">
+      <div class="logo-area"><div class="logo-mark">D</div><span class="page-title">Agenda</span></div>
+      <button class="btn-novo" onclick="openModal(null,null)">+ Agendamento</button>
+    </div>
+  </div>
+  <div class="date-strip">
+    <button class="date-arrow" onclick="changeDay(-1)">&#8249;</button>
+    <div class="date-center"><div class="date-main" id="dateMain">Sabado, 24 de maio</div><div class="date-sub" id="dateSub">2025</div></div>
+    <button class="date-arrow" onclick="changeDay(1)">&#8250;</button>
+  </div>
+  <div class="barber-tabs">
+    <div class="barber-tab all active" onclick="setFilter('all',this)">Todos</div>
+    <div class="barber-tab h" onclick="setFilter('h',this)">Henrique</div>
+    <div class="barber-tab b" onclick="setFilter('b',this)">Betho</div>
+  </div>
+  <div class="summary">
+    <div class="sum-item"><div class="sum-label">Faturamento</div><div class="sum-value" id="sumFat">R$ 0</div></div>
+    <div class="sum-item"><div class="sum-label">Atendimentos</div><div class="sum-value n" id="sumAtd">0</div></div>
+    <div class="sum-item"><div class="sum-label">Ticket medio</div><div class="sum-value" id="sumTkt">R$ 0</div></div>
+  </div>
+  <div class="agenda-wrap">
+    <div class="agenda-header" id="agendaHeader">
+      <div class="ah-time"></div>
+      <div class="ah-barber" id="col-hdr-h"><div class="ah-dot" style="background:var(--blue)"></div><span class="ah-name">Henrique</span><span class="ah-count" id="cnt-h">0 atend.</span></div>
+      <div class="ah-barber" id="col-hdr-b"><div class="ah-dot" style="background:var(--red)"></div><span class="ah-name">Betho</span><span class="ah-count" id="cnt-b">0 atend.</span></div>
+    </div>
+    <div class="agenda-body" id="agendaBody"></div>
+  </div>
+  <div class="spacer-bottom"></div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="screen-dashboard" class="screen">
+  <div class="topbar" style="padding:12px 16px">
+    <div style="display:flex;align-items:center;gap:10px"><div class="logo-mark">D</div><span class="page-title">Dashboard</span></div>
+  </div>
+  <div class="period-bar">
+    <div class="period-btn" onclick="setPeriod('dia', this)">Hoje</div><div class="period-btn" onclick="setPeriod('semana', this)">Semana</div>
+    <div class="period-btn active" onclick="setPeriod('mes', this)">Mes</div><div class="period-btn" onclick="setPeriod('ano', this)">Ano</div>
+    <div class="period-custom" onclick="openDateFilter()">&#128197; <span id="dateRangeLabel">01-24 mai</span></div>
+  </div>
+  <div class="dash-content">
+    <div class="kpi-grid">
+      <div class="kpi-card gold"><div class="kpi-label">Faturamento</div><div class="kpi-value gold-c">R$ 8.340</div><span class="kpi-delta up">+18%</span></div>
+      <div class="kpi-card blue"><div class="kpi-label">Atendimentos</div><div class="kpi-value">114</div><span class="kpi-delta up">+12</span></div>
+      <div class="kpi-card green"><div class="kpi-label">Ticket medio</div><div class="kpi-value">R$ 73</div><span class="kpi-delta up">+5%</span></div>
+      <div class="kpi-card red"><div class="kpi-label">Novos / Fixos</div><div class="kpi-value" style="font-size:20px">38 <span style="color:var(--muted);font-size:14px">/ 76</span></div><div class="kpi-sub">33% novos - 67% fixos</div></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Evolucao do faturamento</div><div class="chart-sub">Maio 2025</div></div><span class="chart-badge">+18% mes</span></div>
+      <div class="chart-wrap"><canvas id="lineChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Melhor dia da semana</div><div class="chart-sub">Faturamento medio</div></div></div>
+      <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+    </div>
+    <div class="section-title">Performance por barbeiro</div>
+    <div class="barber-row">
+      <div class="barber-card">
+        <div class="barber-card-header"><div class="barber-dot" style="background:var(--blue)"></div><span class="barber-card-name">Henrique</span></div>
+        <div class="barber-stat"><div class="barber-stat-label">Faturamento</div><div class="barber-stat-val gold">R$ 4.920</div></div>
+        <div class="barber-stat"><div class="barber-stat-label">Atendimentos</div><div class="barber-stat-val neutral">67</div></div>
+        <div class="bar-track"><div class="bar-fill" style="width:59%;background:var(--blue)"></div></div>
+      </div>
+      <div class="barber-card">
+        <div class="barber-card-header"><div class="barber-dot" style="background:var(--red)"></div><span class="barber-card-name">Betho</span></div>
+        <div class="barber-stat"><div class="barber-stat-label">Faturamento</div><div class="barber-stat-val gold">R$ 3.420</div></div>
+        <div class="barber-stat"><div class="barber-stat-label">Atendimentos</div><div class="barber-stat-val neutral">47</div></div>
+        <div class="bar-track"><div class="bar-fill" style="width:41%;background:var(--red)"></div></div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Mix de servicos</div><div class="chart-sub">% de saida</div></div></div>
+      <div class="chart-wrap" style="height:160px"><canvas id="pieServ"></canvas></div>
+      <div class="pie-legend">
+        <div class="pie-item"><div class="pie-dot" style="background:var(--gold)"></div><span class="pie-label">Corte</span><span class="pie-pct">48%</span></div>
+        <div class="pie-item"><div class="pie-dot" style="background:var(--blue)"></div><span class="pie-label">Barba</span><span class="pie-pct">32%</span></div>
+        <div class="pie-item"><div class="pie-dot" style="background:var(--green)"></div><span class="pie-label">Pezinho</span><span class="pie-pct">13%</span></div>
+        <div class="pie-item"><div class="pie-dot" style="background:var(--red)"></div><span class="pie-label">Sobrancelha</span><span class="pie-pct">7%</span></div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Meios de pagamento</div><div class="chart-sub">Preferencia dos clientes</div></div></div>
+      <div class="pgto-list">
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--green)"></div><span class="pgto-label">Pix</span><span class="pgto-pct">52%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:52%;background:var(--green)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--blue)"></div><span class="pgto-label">Credito</span><span class="pgto-pct">24%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:24%;background:var(--blue)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--gold)"></div><span class="pgto-label">Dinheiro</span><span class="pgto-pct">16%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:16%;background:var(--gold)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--red)"></div><span class="pgto-label">Debito</span><span class="pgto-pct">8%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:8%;background:var(--red)"></div></div></div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Produtos vendidos</div><div class="chart-sub">% de saida por produto</div></div></div>
+      <div class="pgto-list">
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--gold)"></div><span class="pgto-label">Pomada</span><span class="pgto-pct">38%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:38%;background:var(--gold)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--purple)"></div><span class="pgto-label">Balm</span><span class="pgto-pct">28%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:28%;background:var(--purple)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--teal)"></div><span class="pgto-label">Oleo</span><span class="pgto-pct">22%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:22%;background:var(--teal)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--green)"></div><span class="pgto-label">Leave-In</span><span class="pgto-pct">12%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:12%;background:var(--green)"></div></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="spacer-bottom"></div>
+</div>
+
+<!-- DATE FILTER MODAL -->
+<div class="modal-overlay" id="dateFilterModal" style="display:none" onclick="closeDateFilter(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <div class="modal-title">Filtrar por período</div>
+    </div>
+    <div class="modal-body">
+      <div><div class="field-label">Data inicial</div><input class="field-input" id="inputDataInicial" type="date"></div>
+      <div><div class="field-label">Data final</div><input class="field-input" id="inputDataFinal" type="date"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeDateFilter()">Cancelar</button>
+      <button class="btn-save" onclick="applyDateFilter()">Aplicar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" style="display:none" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-header" style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div>
+        <div class="modal-title" id="modalTitle">Novo atendimento</div>
+        <div class="modal-sub" id="modalSub">-</div>
+      </div>
+      <button id="btnDelete" onclick="deleteAppt()" style="display:none;background:rgba(224,112,96,.15);border:1px solid rgba(224,112,96,.3);color:var(--red);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer">Excluir</button>
+    </div>
+    <div class="modal-body">
+      <div><div class="field-label">Nome do cliente</div><input class="field-input" id="inputNome" type="text" placeholder="Ex: Joao Silva"></div>
+      <div>
+        <div class="field-label">Barbeiro responsavel</div>
+        <div class="radio-group" id="rgBarber">
+          <div class="radio-chip h-sel" onclick="selChip(this,'barber')">Henrique</div>
+          <div class="radio-chip" onclick="selChip(this,'barber')">Betho</div>
+        </div>
+      </div>
+      <div>
+        <div class="field-label">Horario e duracao</div>
+        <div class="time-picker-row">
+          <select class="time-select" id="selHorario" style="flex:1.2"></select>
+          <select class="time-select" id="selDuracao" style="flex:1">
+            <option value="1">30 min</option>
+            <option value="2" selected>1 hora</option>
+            <option value="3">1h 30min</option>
+            <option value="4">2 horas</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <div class="field-label" style="margin-bottom:8px">Servicos</div>
+        <div class="svc-grid">
+          <div class="svc-item" onclick="toggleSvc(this,50)"><div class="svc-check"></div><div class="svc-name">Corte</div><div class="svc-price">R$ 50</div></div>
+          <div class="svc-item" onclick="toggleSvc(this,50)"><div class="svc-check"></div><div class="svc-name">Barba</div><div class="svc-price">R$ 50</div></div>
+          <div class="svc-item" onclick="toggleSvc(this,20)"><div class="svc-check"></div><div class="svc-name">Pezinho</div><div class="svc-price">R$ 20</div></div>
+          <div class="svc-item" onclick="toggleSvc(this,10)"><div class="svc-check"></div><div class="svc-name">Sobrancelha</div><div class="svc-price">R$ 10</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="field-label" style="margin-bottom:8px">Produtos</div>
+        <div class="svc-grid">
+          <div class="svc-item" onclick="toggleSvc(this,30)"><div class="svc-check"></div><div class="svc-name">Pomada</div><div class="svc-price">R$ 30</div></div>
+          <div class="svc-item" onclick="toggleSvc(this,40)"><div class="svc-check"></div><div class="svc-name">Oleo</div><div class="svc-price">R$ 40</div></div>
+          <div class="svc-item" onclick="toggleSvc(this,40)"><div class="svc-check"></div><div class="svc-name">Balm</div><div class="svc-price">R$ 40</div></div>
+          <div class="svc-item" onclick="toggleSvc(this,40)"><div class="svc-check"></div><div class="svc-name">Leave-In</div><div class="svc-price">R$ 40</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="field-label">Tipo de cliente</div>
+        <div class="radio-group" id="rgTipo">
+          <div class="radio-chip sel" onclick="selChip(this,'tipo')">Novo</div>
+          <div class="radio-chip" onclick="selChip(this,'tipo')">Fixo</div>
+        </div>
+      </div>
+      <div>
+        <div class="field-label">Forma de pagamento</div>
+        <div class="radio-group" id="rgPgto">
+          <div class="radio-chip" onclick="selChip(this,'pgto')">Dinheiro</div>
+          <div class="radio-chip sel" onclick="selChip(this,'pgto')">Pix</div>
+          <div class="radio-chip" onclick="selChip(this,'pgto')">Credito</div>
+          <div class="radio-chip" onclick="selChip(this,'pgto')">Debito</div>
+        </div>
+      </div>
+      <div class="total-card">
+        <div class="total-label">Valor cobrado</div>
+        <input class="total-input" id="totalField" value="R$ 0">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="btn-save" onclick="saveAppt()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOADING BAR -->
+<div id="loadingBar" style="display:none;position:fixed;top:0;left:0;right:0;height:3px;background:var(--gold);z-index:999;animation:loadpulse 1s ease-in-out infinite">
+</div>
+<style>
+@keyframes loadpulse {
+  0%{opacity:1} 50%{opacity:.4} 100%{opacity:1}
+}
+</style>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="nav-tab active" id="tab-agenda" onclick="goTo('agenda')"><span class="icon">&#128197;</span>Agenda</div>
+  <div class="nav-tab" id="tab-dashboard" onclick="goTo('dashboard')"><span class="icon">&#128202;</span>Dashboard</div>
+</nav>
+
+<script>
+const SLOT_H = 56;
+const START_H = 8;
+const END_H = 20;
+const TOTAL_SLOTS = (END_H - START_H) * 2;
+
+function slotLabel(i) {
+  var totalMin = START_H * 60 + i * 30;
+  var h = String(Math.floor(totalMin / 60)).padStart(2,'0');
+  var m = totalMin % 60 === 0 ? '00' : '30';
+  return h + ':' + m;
+}
+
+function durLabel(slots) {
+  var min = slots * 30;
+  if (min < 60) return min + 'min';
+  if (min === 60) return '1h';
+  if (min % 60 === 0) return (min/60) + 'h';
+  return Math.floor(min/60) + 'h' + (min%60) + 'min';
+}
+
+// ── FIREBASE CONFIG ──────────────────────────────────────
+// SDK carregado via CDN no <head>
+var firebaseConfig = {
+  apiKey: "AIzaSyDKVN1qJlX4QjdbFG65bgLvQ0EZV54CGJ0",
+  authDomain: "barbearia-diferraz.firebaseapp.com",
+  projectId: "barbearia-diferraz",
+  storageBucket: "barbearia-diferraz.firebasestorage.app",
+  messagingSenderId: "955594463142",
+  appId: "1:955594463142:web:bad3aee84bd8781f6be167"
+};
+
+firebase.initializeApp(firebaseConfig);
+var db = firebase.firestore();
+
+// Colecao: agendamentos/{yyyy-mm-dd}/{barbeiro}/{slot}
+function docPath(date, barbeiro, slot) {
+  return db.collection('agendamentos')
+    .doc(toISO(date))
+    .collection(barbeiro)
+    .doc(String(slot));
+}
+
+async function dbLoad(date) {
+  var iso = toISO(date);
+  appts = { h: {}, b: {} };
+  var barbers = ['h','b'];
+  for (var bi = 0; bi < barbers.length; bi++) {
+    var b = barbers[bi];
+    var snap = await db.collection('agendamentos').doc(iso).collection(b).get();
+    snap.forEach(function(doc) {
+      var d = doc.data();
+      appts[b][parseInt(doc.id)] = {
+        id: doc.id,
+        name: d.nome,
+        svc: d.servico,
+        price: d.preco,
+        tipo: d.tipo,
+        slots: d.slots,
+        pagamento: d.pagamento
+      };
+    });
+  }
+  renderAgenda();
+}
+
+async function dbSave(date, barbeiro, slot, data) {
+  await docPath(date, barbeiro, slot).set(data);
+}
+
+async function dbUpdate(date, barbeiro, slot, data) {
+  await docPath(date, barbeiro, slot).update(data);
+}
+
+async function dbDelete(date, barbeiro, slot) {
+  await docPath(date, barbeiro, slot).delete();
+}
+
+// ── DATE STATE ──────────────────────────────────────────
+var currentDate = new Date(2025, 4, 24); // May 24 2025
+var DAYS_PT = ['Domingo','Segunda','Terca','Quarta','Quinta','Sexta','Sabado'];
+var MONTHS_PT = ['janeiro','fevereiro','marco','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+
+function formatDateMain(d) {
+  return DAYS_PT[d.getDay()] + ', ' + d.getDate() + ' de ' + MONTHS_PT[d.getMonth()];
+}
+function formatDateSub(d) { return d.getFullYear(); }
+
+function changeDay(delta) {
+  currentDate.setDate(currentDate.getDate() + delta);
+  document.getElementById('dateMain').textContent = formatDateMain(currentDate);
+  document.getElementById('dateSub').textContent = formatDateSub(currentDate);
+  showLoading(true);
+  dbLoad(currentDate).finally(function(){ showLoading(false); });
+}
+
+// ── FILTER STATE ─────────────────────────────────────────
+var activeFilter = 'all';
+
+function setFilter(filter, el) {
+  activeFilter = filter;
+  document.querySelectorAll('.barber-tab').forEach(function(t){ t.classList.remove('active'); });
+  el.classList.add('active');
+  renderAgenda();
+}
+
+var appts = {
+  h: {
+    2:  { name:'Rafael Mendes',  svc:'Corte + Barba',           price:100, tipo:'fixo', slots:2 },
+    4:  { name:'Bruno Carvalho', svc:'Corte',                    price:50,  tipo:'fixo', slots:1 },
+    6:  { name:'Lucas Ferreira', svc:'Corte + Pomada',           price:80,  tipo:'novo', slots:2 },
+    10: { name:'Andre Souza',    svc:'Corte + Barba',            price:100, tipo:'fixo', slots:2 },
+    13: { name:'Diego Santos',   svc:'Barba',                    price:50,  tipo:'fixo', slots:1 }
+  },
+  b: {
+    3:  { name:'Marcos Oliveira',svc:'Corte + Sobrancelha',      price:60,  tipo:'novo', slots:1 },
+    7:  { name:'Caio Lima',      svc:'Corte + Barba + Pezinho',  price:120, tipo:'fixo', slots:3 },
+    16: { name:'Felipe Costa',   svc:'Corte',                    price:50,  tipo:'novo', slots:1 }
+  }
+};
+
+function occupiedSlots(barber) {
+  var occ = {};
+  Object.keys(appts[barber]).forEach(function(si) {
+    var a = appts[barber][si];
+    for (var k = 0; k < a.slots; k++) occ[parseInt(si) + k] = parseInt(si);
+  });
+  return occ;
+}
+
+function renderAgenda() {
+  var body = document.getElementById('agendaBody');
+  body.innerHTML = '';
+
+  // Adjust grid columns based on filter
+  var cols = activeFilter === 'all' ? '48px 1fr 1fr' : '48px 1fr';
+  document.getElementById('agendaHeader').style.gridTemplateColumns = cols;
+  document.getElementById('col-hdr-h').style.display = (activeFilter === 'b') ? 'none' : '';
+  document.getElementById('col-hdr-b').style.display = (activeFilter === 'h') ? 'none' : '';
+
+  var occH = occupiedSlots('h');
+  var occB = occupiedSlots('b');
+
+  for (var i = 0; i < TOTAL_SLOTS; i++) {
+    var row = document.createElement('div');
+    var isHour = i % 2 === 0;
+    row.className = 'time-row' + (isHour ? '' : ' half');
+    row.style.gridTemplateColumns = activeFilter === 'all' ? '48px 1fr 1fr' : '48px 1fr';
+
+    var lbl = slotLabel(i);
+    var timeCls = isHour ? 'tr-time' : 'tr-time dim';
+    row.innerHTML = '<div class="' + timeCls + '">' + lbl + '</div>';
+
+    var barbers = activeFilter === 'all' ? ['h','b'] : [activeFilter];
+    for (var bi = 0; bi < barbers.length; bi++) {
+      var b = barbers[bi];
+      var col = document.createElement('div');
+      col.className = 'tr-col';
+
+      if (appts[b][i]) {
+        var a = appts[b][i];
+        col.classList.add('has-appt');
+        var cardH = a.slots * SLOT_H - 6;
+        var color = b === 'h' ? 'blue' : 'red';
+        var tipoCap = a.tipo.charAt(0).toUpperCase() + a.tipo.slice(1);
+        col.innerHTML =
+          '<div class="appt-card" style="height:' + cardH + 'px" onclick="openModal(\'' + b + '\',' + i + ')">' +
+            '<div class="appt-accent ' + color + '"></div>' +
+            '<div class="appt-body ' + color + '-bg">' +
+              '<div>' +
+                '<div class="appt-name">' + a.name + '</div>' +
+                '<div class="appt-svc">' + a.svc + '</div>' +
+              '</div>' +
+              '<div class="appt-bottom">' +
+                '<span class="appt-price">R$ ' + a.price + '</span>' +
+                '<span class="appt-dur">' + durLabel(a.slots) + '</span>' +
+                '<span class="appt-badge badge-' + a.tipo + '">' + tipoCap + '</span>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+      } else if ((b === 'h' && occH[i] !== undefined) || (b === 'b' && occB[i] !== undefined)) {
+        col.classList.add('has-appt');
+        col.style.visibility = 'hidden';
+      } else {
+        (function(barber, slot) {
+          col.onclick = function() { openModal(barber, slot); };
+        })(b, i);
+      }
+      row.appendChild(col);
+    }
+    body.appendChild(row);
+  }
+  updateSummary();
+}
+
+function updateSummary() {
+  var all = Object.values(appts.h).concat(Object.values(appts.b));
+  var fat = all.reduce(function(s,a){ return s + a.price; }, 0);
+  var atd = all.length;
+  document.getElementById('sumFat').textContent = 'R$ ' + fat;
+  document.getElementById('sumAtd').textContent = atd;
+  document.getElementById('sumTkt').textContent = atd ? 'R$ ' + Math.round(fat/atd) : 'R$ 0';
+  document.getElementById('cnt-h').textContent = Object.keys(appts.h).length + ' atend.';
+  document.getElementById('cnt-b').textContent = Object.keys(appts.b).length + ' atend.';
+}
+
+var modalBarber = 'h', modalTotal = 0, editingBarber = null, editingSlot = null;
+
+function buildHorarioSelect(preselect) {
+  var sel = document.getElementById('selHorario');
+  sel.innerHTML = '';
+  for (var i = 0; i < TOTAL_SLOTS; i++) {
+    var opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = slotLabel(i);
+    if (i === preselect) opt.selected = true;
+    sel.appendChild(opt);
+  }
+}
+
+function openModal(barber, slotIndex) {
+  modalBarber = barber || 'h';
+  modalTotal = 0;
+  var slot = slotIndex !== null && slotIndex !== undefined ? slotIndex : 0;
+
+  // Check if editing existing appointment
+  var existing = (barber && slotIndex !== null && appts[barber] && appts[barber][slotIndex])
+    ? appts[barber][slotIndex] : null;
+
+  editingBarber = existing ? barber : null;
+  editingSlot = existing ? slotIndex : null;
+
+  // Show/hide delete button
+  document.getElementById('btnDelete').style.display = existing ? 'block' : 'none';
+  document.getElementById('modalTitle').textContent = existing ? 'Editar atendimento' : 'Novo atendimento';
+
+  // Reset form
+  document.getElementById('inputNome').value = existing ? existing.name : '';
+  document.querySelectorAll('.svc-item').forEach(function(el) {
+    el.classList.remove('sel');
+    el.querySelector('.svc-check').textContent = '';
+  });
+  document.getElementById('totalField').value = existing ? 'R$ ' + existing.price : 'R$ 0';
+  modalTotal = existing ? existing.price : 0;
+  document.getElementById('selDuracao').value = existing ? String(existing.slots) : '2';
+
+  document.querySelectorAll('#rgBarber .radio-chip').forEach(function(c){ c.classList.remove('sel','h-sel','b-sel'); });
+  var barberKey = existing ? barber : modalBarber;
+  var chip = barberKey === 'h'
+    ? document.querySelector('#rgBarber .radio-chip:first-child')
+    : document.querySelector('#rgBarber .radio-chip:last-child');
+  chip.classList.add(barberKey + '-sel');
+
+  document.querySelectorAll('#rgTipo .radio-chip').forEach(function(c,i){
+    var t = existing ? existing.tipo : 'novo';
+    c.classList.toggle('sel', (i===0 && t==='novo') || (i===1 && t==='fixo'));
+  });
+  document.querySelectorAll('#rgPgto .radio-chip').forEach(function(c,i){ c.classList.toggle('sel', i===1); });
+
+  buildHorarioSelect(slot);
+  var dm = formatDateMain(currentDate).replace('Sabado','Sab').replace('Segunda','Seg').replace('Terca','Ter').replace('Quarta','Qua').replace('Quinta','Qui').replace('Sexta','Sex').replace('Domingo','Dom');
+  document.getElementById('modalSub').textContent = slotLabel(slot) + ' - ' + dm;
+  document.getElementById('modal').style.display = 'flex';
+}
+
+async function deleteAppt() {
+  if (editingBarber !== null && editingSlot !== null) {
+    var appt = appts[editingBarber][editingSlot];
+    closeModal();
+    if (appt) {
+      showLoading(true);
+      try {
+        await dbDelete(currentDate, editingBarber, editingSlot);
+        await dbLoad(currentDate);
+      } catch(e) {
+        alert('Erro ao excluir.');
+        console.error(e);
+      } finally {
+        showLoading(false);
+      }
+    } else {
+      delete appts[editingBarber][editingSlot];
+      renderAgenda();
+    }
+  }
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modal'))
+    document.getElementById('modal').style.display = 'none';
+}
+
+function toggleSvc(el, val) {
+  el.classList.toggle('sel');
+  modalTotal += el.classList.contains('sel') ? val : -val;
+  el.querySelector('.svc-check').textContent = el.classList.contains('sel') ? 'v' : '';
+  document.getElementById('totalField').value = 'R$ ' + modalTotal;
+}
+
+function selChip(el, group) {
+  el.closest('.radio-group').querySelectorAll('.radio-chip').forEach(function(c){
+    c.classList.remove('sel','h-sel','b-sel');
+  });
+  if (el.textContent === 'Henrique') el.classList.add('h-sel');
+  else if (el.textContent === 'Betho') el.classList.add('b-sel');
+  else el.classList.add('sel');
+}
+
+async function saveAppt() {
+  var nome = document.getElementById('inputNome').value.trim() || 'Cliente';
+  var slotIdx = parseInt(document.getElementById('selHorario').value);
+  var durSlots = parseInt(document.getElementById('selDuracao').value);
+  var barberChip = document.querySelector('#rgBarber .radio-chip.h-sel, #rgBarber .radio-chip.b-sel');
+  var barber = (barberChip && barberChip.classList.contains('b-sel')) ? 'b' : 'h';
+  var tipoChip = document.querySelector('#rgTipo .radio-chip.sel');
+  var tipo = tipoChip ? tipoChip.textContent.toLowerCase() : 'novo';
+  var pgtoChip = document.querySelector('#rgPgto .radio-chip.sel');
+  var pgto = pgtoChip ? pgtoChip.textContent.toLowerCase() : 'pix';
+  var svcs = [];
+  document.querySelectorAll('.svc-item.sel .svc-name').forEach(function(el){ svcs.push(el.textContent); });
+  var svc = svcs.length ? svcs.join(' + ') : 'Servico';
+  var rawVal = document.getElementById('totalField').value.replace(/[^0-9]/g,'');
+  var price = parseInt(rawVal) || 0;
+
+  closeModal();
+  showLoading(true);
+
+  try {
+    if (editingBarber !== null && editingSlot !== null && appts[editingBarber][editingSlot] && appts[editingBarber][editingSlot].id) {
+      // UPDATE existing
+      await dbUpdate(currentDate, editingBarber, editingSlot, {
+        nome: nome, servico: svc, preco: price,
+        slots: durSlots, tipo: tipo, pagamento: pgto
+      });
+    } else {
+      // INSERT new
+      await dbSave(currentDate, barber, slotIdx, {
+        nome: nome, servico: svc, preco: price, slots: durSlots, tipo: tipo, pagamento: pgto
+      });
+    }
+    await dbLoad(currentDate);
+  } catch(e) {
+    alert('Erro ao salvar. Verifique a conexao.');
+    console.error(e);
+  } finally {
+    showLoading(false);
+  }
+}
+
+var chartsInit = false;
+var activePeriod = 'mes';
+var customDateStart = null;
+var customDateEnd = null;
+
+function getDateRange(period) {
+  var end = new Date(currentDate);
+  var start = new Date(currentDate);
+  
+  switch(period) {
+    case 'dia':
+      // Hoje = somente o dia atual
+      return { start: start, end: end };
+    case 'semana':
+      // Últimos 7 dias
+      start.setDate(start.getDate() - 6);
+      return { start: start, end: end };
+    case 'mes':
+      // Últimos 30 dias
+      start.setDate(start.getDate() - 29);
+      return { start: start, end: end };
+    case 'ano':
+      // Últimos 365 dias
+      start.setDate(start.getDate() - 364);
+      return { start: start, end: end };
+    case 'custom':
+      if (customDateStart && customDateEnd) {
+        return { start: new Date(customDateStart), end: new Date(customDateEnd) };
+      }
+      return { start: start, end: end };
+    default:
+      return { start: start, end: end };
+  }
+}
+
+function setPeriod(period, el) {
+  activePeriod = period;
+  document.querySelectorAll('.period-btn').forEach(function(b){ b.classList.remove('active'); });
+  if(el) el.classList.add('active');
+  updateDashboard();
+}
+
+function openDateFilter() {
+  var today = toISO(new Date());
+  document.getElementById('inputDataInicial').value = customDateStart || today;
+  document.getElementById('inputDataFinal').value = customDateEnd || today;
+  document.getElementById('dateFilterModal').style.display = 'flex';
+}
+
+function closeDateFilter(e) {
+  if (!e || e.target === document.getElementById('dateFilterModal'))
+    document.getElementById('dateFilterModal').style.display = 'none';
+}
+
+function applyDateFilter() {
+  var start = document.getElementById('inputDataInicial').value;
+  var end = document.getElementById('inputDataFinal').value;
+  
+  if (start && end && start <= end) {
+    customDateStart = start;
+    customDateEnd = end;
+    activePeriod = 'custom';
+    
+    // Update label
+    var startDate = new Date(start);
+    var endDate = new Date(end);
+    var label = startDate.getDate() + ' ' + MONTHS_PT[startDate.getMonth()] + ' - ' +
+                endDate.getDate() + ' ' + MONTHS_PT[endDate.getMonth()];
+    document.getElementById('dateRangeLabel').textContent = label;
+    
+    closeDateFilter();
+    updateDashboard();
+  } else {
+    alert('Datas inválidas. Verifique se a data inicial é menor que a final.');
+  }
+}
+
+function updateDashboard() {
+  if (chartsInit) initCharts();
+}
+
+function goTo(screen) {
+  document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+  document.querySelectorAll('.nav-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.getElementById('screen-' + screen).classList.add('active');
+  document.getElementById('tab-' + screen).classList.add('active');
+  window.scrollTo(0,0);
+  if (screen === 'dashboard' && !chartsInit) { chartsInit = true; initCharts(); }
+}
+
+function initCharts() {
+  var gold='#c9a84c', blue='#6a9fd8', red='#e07060', green='#6abf7c';
+  var border='#2a2a2a', muted='#555';
+  var base = { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+    scales:{ x:{ticks:{color:muted,font:{size:10}},grid:{color:border}}, y:{ticks:{color:muted,font:{size:10}},grid:{color:border}} }
+  };
+  new Chart(document.getElementById('lineChart'),{
+    type:'line',
+    data:{ labels:['1','3','5','7','9','11','13','15','17','19','21','23'],
+      datasets:[{ data:[280,340,390,310,420,480,350,520,460,580,540,620],
+        borderColor:gold, backgroundColor:'rgba(201,168,76,.08)',
+        borderWidth:2, pointRadius:2, pointBackgroundColor:gold, fill:true, tension:.4 }]
+    },
+    options:Object.assign({},base,{scales:{
+      x:{ticks:{color:muted,font:{size:10}},grid:{color:border}},
+      y:{ticks:{color:muted,font:{size:10},callback:function(v){return 'R$'+v}},grid:{color:border}}
+    }})
+  });
+  new Chart(document.getElementById('barChart'),{
+    type:'bar',
+    data:{ labels:['Seg','Ter','Qua','Qui','Sex','Sab'],
+      datasets:[{ data:[310,280,340,320,480,720],
+        backgroundColor:['rgba(106,159,216,.5)','rgba(106,159,216,.5)','rgba(106,159,216,.5)','rgba(106,159,216,.5)','rgba(201,168,76,.6)','rgba(201,168,76,.9)'],
+        borderRadius:6, borderWidth:0 }]
+    },
+    options:Object.assign({},base,{scales:{
+      x:{ticks:{color:muted,font:{size:11}},grid:{color:border}},
+      y:{ticks:{color:muted,font:{size:10},callback:function(v){return 'R$'+v}},grid:{color:border}}
+    }})
+  });
+  new Chart(document.getElementById('pieServ'),{
+    type:'doughnut',
+    data:{ labels:['Corte','Barba','Pezinho','Sobrancelha'],
+      datasets:[{ data:[48,32,13,7], backgroundColor:[gold,blue,green,red], borderColor:'#1a1a1a', borderWidth:2 }]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, cutout:'65%' }
+  });
+}
+
+// ── HELPERS ──────────────────────────────────────────────
+function toISO(d) {
+  var y = d.getFullYear();
+  var m = String(d.getMonth()+1).padStart(2,'0');
+  var day = String(d.getDate()).padStart(2,'0');
+  return y + '-' + m + '-' + day;
+}
+
+function showLoading(on) {
+  var el = document.getElementById('loadingBar');
+  if (el) el.style.display = on ? 'block' : 'none';
+}
+
+// ── INIT ─────────────────────────────────────────────────
+dbLoad(currentDate);
+</script>
+</body>
+</html>
