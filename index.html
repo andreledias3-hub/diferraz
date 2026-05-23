@@ -554,7 +554,7 @@ function renderAgenda() {
       if (appts[b][i]) {
         var a = appts[b][i];
         col.classList.add('has-appt');
-        var cardH = Math.max(70, a.slots * SLOT_H - 6);
+        var cardH = Math.max(90, a.slots * SLOT_H - 6);
         var color = b === 'h' ? 'blue' : 'red';
         var tipoCap = a.tipo.charAt(0).toUpperCase() + a.tipo.slice(1);
         col.innerHTML =
