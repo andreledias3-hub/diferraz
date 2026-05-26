@@ -26,8 +26,7 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 .topbar{position:sticky;top:0;z-index:100;background:var(--dark);border-bottom:1px solid var(--border);padding:12px 16px 10px}
 .topbar-row1{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .logo-area{display:flex;align-items:center;gap:8px}
-.logo-mark{width:40px;height:40px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.logo-mark img{max-width:100%;max-height:100%;object-fit:contain}
+.logo-mark{width:32px;height:32px;background:var(--gold);border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--black);flex-shrink:0}
 .page-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--white)}
 .btn-novo{background:var(--gold);color:var(--black);border:none;border-radius:8px;padding:8px 14px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer}
 
@@ -51,7 +50,7 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 .sum-item{flex:1;padding:10px 0;text-align:center;border-right:1px solid var(--border)}
 .sum-item:last-child{border-right:none}
 .sum-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.sum-value{font-size:16px;font-weight:600;color:var(--gold);font-family:'DM Sans',sans-serif;margin-top:2px}
+.sum-value{font-size:16px;font-weight:600;color:var(--gold);font-family:'Playfair Display',serif;margin-top:2px}
 .sum-value.n{color:var(--text)}
 
 /* AGENDA GRID */
@@ -72,7 +71,7 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 .tr-col:not(.has-appt):hover::after{content:'+ novo';position:absolute;inset:4px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--gold);opacity:.6;border:1px dashed rgba(201,168,76,.3);border-radius:8px;pointer-events:none}
 
 /* APPT CARD */
-.appt-card{position:absolute;left:4px;right:4px;top:3px;bottom:3px;border-radius:10px;overflow:hidden;display:flex;z-index:5;cursor:pointer;transition:.15s}
+.appt-card{position:absolute;left:4px;right:4px;top:3px;border-radius:10px;overflow:hidden;display:flex;z-index:5;cursor:pointer;transition:.15s}
 .appt-card:active{opacity:.8;transform:scale(.98)}
 .appt-accent{width:4px;flex-shrink:0}
 .appt-accent.blue{background:var(--blue)}
@@ -121,7 +120,7 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 .svc-item.sel .svc-price{color:var(--gold)}
 .total-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
 .total-label{font-size:13px;color:var(--muted)}
-.total-input{font-family:'DM Sans',sans-serif;font-size:26px;color:var(--gold);background:transparent;border:none;outline:none;text-align:right;width:160px}
+.total-input{font-family:'Playfair Display',serif;font-size:26px;color:var(--gold);background:transparent;border:none;outline:none;text-align:right;width:160px}
 .modal-footer{padding:12px 20px 20px;display:flex;gap:10px}
 .btn-cancel{flex:1;padding:14px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer}
 .btn-save{flex:2;padding:14px;border-radius:12px;background:var(--gold);border:none;color:var(--black);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer}
@@ -139,7 +138,7 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 .kpi-card.gold::before{background:var(--gold)}.kpi-card.blue::before{background:var(--blue)}
 .kpi-card.green::before{background:var(--green)}.kpi-card.red::before{background:var(--red)}
 .kpi-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
-.kpi-value{font-family:'DM Sans',sans-serif;font-size:24px;line-height:1;color:var(--white)}
+.kpi-value{font-family:'Playfair Display',serif;font-size:24px;line-height:1;color:var(--white)}
 .kpi-value.gold-c{color:var(--gold)}
 .kpi-delta{display:inline-block;font-size:11px;font-weight:600;padding:2px 7px;border-radius:6px;margin-top:6px}
 .kpi-delta.up{background:rgba(106,191,124,.15);color:var(--green)}
@@ -157,7 +156,7 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 .barber-card-name{font-size:13px;font-weight:600;color:var(--text)}
 .barber-stat{margin-bottom:8px}
 .barber-stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
-.barber-stat-val{font-family:'DM Sans',sans-serif;font-size:18px}
+.barber-stat-val{font-family:'Playfair Display',serif;font-size:18px}
 .barber-stat-val.gold{color:var(--gold)}.barber-stat-val.neutral{color:var(--text)}
 .bar-track{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-top:10px}
 .bar-fill{height:100%;border-radius:3px}
@@ -189,8 +188,8 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 <div id="screen-agenda" class="screen active">
   <div class="topbar">
     <div class="topbar-row1">
-      <div class="logo-area"><div class="logo-mark" style="color:var(--gold);font-size:24px">✂️</div><span class="page-title">Agenda</span></div>
-      <button class="btn-novo" onclick="openModal(null,null)">+ Agendamento</button>
+      <div class="logo-area"><div class="logo-mark">D</div><span class="page-title">Agenda</span></div>
+      <button class="btn-novo" onclick="openModal(null,null)">+ Atendimento</button>
     </div>
   </div>
   <div class="date-strip">
@@ -222,22 +221,22 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 <!-- DASHBOARD -->
 <div id="screen-dashboard" class="screen">
   <div class="topbar" style="padding:12px 16px">
-    <div style="display:flex;align-items:center;gap:10px"><div class="logo-mark" style="color:var(--gold);font-size:24px">✂️</div><span class="page-title">Dashboard</span></div>
+    <div style="display:flex;align-items:center;gap:10px"><div class="logo-mark">D</div><span class="page-title">Dashboard</span></div>
   </div>
   <div class="period-bar">
-    <div class="period-btn" onclick="setPeriod('dia', this)">Hoje</div><div class="period-btn" onclick="setPeriod('semana', this)">Semana</div>
-    <div class="period-btn active" onclick="setPeriod('mes', this)">Mes</div><div class="period-btn" onclick="setPeriod('ano', this)">Ano</div>
-    <div class="period-custom" onclick="openDateFilter()">&#128197; <span id="dateRangeLabel">01-23 mai</span></div>
+    <div class="period-btn">Hoje</div><div class="period-btn">Semana</div>
+    <div class="period-btn active">Mes</div><div class="period-btn">Ano</div>
+    <div class="period-custom">&#128197; 01-24 mai</div>
   </div>
   <div class="dash-content">
     <div class="kpi-grid">
-      <div class="kpi-card gold"><div class="kpi-label">Faturamento</div><div class="kpi-value gold-c">R$ 0</div><span class="kpi-delta up">+0%</span></div>
-      <div class="kpi-card blue"><div class="kpi-label">Atendimentos</div><div class="kpi-value">0</div><span class="kpi-delta up">+0</span></div>
-      <div class="kpi-card green"><div class="kpi-label">Ticket medio</div><div class="kpi-value">R$ 0</div><span class="kpi-delta up">+0%</span></div>
-      <div class="kpi-card red"><div class="kpi-label">Novos / Fixos</div><div class="kpi-value" style="font-size:20px">0 <span style="color:var(--muted);font-size:14px">/ 0</span></div><div class="kpi-sub">0% novos - 0% fixos</div></div>
+      <div class="kpi-card gold"><div class="kpi-label">Faturamento</div><div class="kpi-value gold-c">R$ 8.340</div><span class="kpi-delta up">+18%</span></div>
+      <div class="kpi-card blue"><div class="kpi-label">Atendimentos</div><div class="kpi-value">114</div><span class="kpi-delta up">+12</span></div>
+      <div class="kpi-card green"><div class="kpi-label">Ticket medio</div><div class="kpi-value">R$ 73</div><span class="kpi-delta up">+5%</span></div>
+      <div class="kpi-card red"><div class="kpi-label">Novos / Fixos</div><div class="kpi-value" style="font-size:20px">38 <span style="color:var(--muted);font-size:14px">/ 76</span></div><div class="kpi-sub">33% novos - 67% fixos</div></div>
     </div>
     <div class="chart-card">
-      <div class=\"chart-header\"><div><div class=\"chart-title\">Evolucao do faturamento</div><div class=\"chart-sub\">Maio 2025</div></div><span class=\"chart-badge\">+0% mes</span></div>
+      <div class="chart-header"><div><div class="chart-title">Evolucao do faturamento</div><div class="chart-sub">Maio 2025</div></div><span class="chart-badge">+18% mes</span></div>
       <div class="chart-wrap"><canvas id="lineChart"></canvas></div>
     </div>
     <div class="chart-card">
@@ -248,65 +247,47 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
     <div class="barber-row">
       <div class="barber-card">
         <div class="barber-card-header"><div class="barber-dot" style="background:var(--blue)"></div><span class="barber-card-name">Henrique</span></div>
-        <div class="barber-stat"><div class="barber-stat-label">Faturamento</div><div class="barber-stat-val gold">R$ 0</div></div>
-        <div class="barber-stat"><div class="barber-stat-label">Atendimentos</div><div class="barber-stat-val neutral">0</div></div>
-        <div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--blue)"></div></div>
+        <div class="barber-stat"><div class="barber-stat-label">Faturamento</div><div class="barber-stat-val gold">R$ 4.920</div></div>
+        <div class="barber-stat"><div class="barber-stat-label">Atendimentos</div><div class="barber-stat-val neutral">67</div></div>
+        <div class="bar-track"><div class="bar-fill" style="width:59%;background:var(--blue)"></div></div>
       </div>
       <div class="barber-card">
         <div class="barber-card-header"><div class="barber-dot" style="background:var(--red)"></div><span class="barber-card-name">Betho</span></div>
-        <div class="barber-stat"><div class="barber-stat-label">Faturamento</div><div class="barber-stat-val gold">R$ 0</div></div>
-        <div class="barber-stat"><div class="barber-stat-label">Atendimentos</div><div class="barber-stat-val neutral">0</div></div>
-        <div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--red)"></div></div>
+        <div class="barber-stat"><div class="barber-stat-label">Faturamento</div><div class="barber-stat-val gold">R$ 3.420</div></div>
+        <div class="barber-stat"><div class="barber-stat-label">Atendimentos</div><div class="barber-stat-val neutral">47</div></div>
+        <div class="bar-track"><div class="bar-fill" style="width:41%;background:var(--red)"></div></div>
       </div>
     </div>
     <div class="chart-card">
       <div class="chart-header"><div><div class="chart-title">Mix de servicos</div><div class="chart-sub">% de saida</div></div></div>
       <div class="chart-wrap" style="height:160px"><canvas id="pieServ"></canvas></div>
       <div class="pie-legend">
-        <div class="pie-item"><div class="pie-dot" style="background:var(--gold)"></div><span class="pie-label">Corte</span><span class="pie-pct">0%</span></div>
-        <div class="pie-item"><div class="pie-dot" style="background:var(--blue)"></div><span class="pie-label">Barba</span><span class="pie-pct">0%</span></div>
-        <div class="pie-item"><div class="pie-dot" style="background:var(--green)"></div><span class="pie-label">Pezinho</span><span class="pie-pct">0%</span></div>
-        <div class="pie-item"><div class="pie-dot" style="background:var(--red)"></div><span class="pie-label">Sobrancelha</span><span class="pie-pct">0%</span></div>
+        <div class="pie-item"><div class="pie-dot" style="background:var(--gold)"></div><span class="pie-label">Corte</span><span class="pie-pct">48%</span></div>
+        <div class="pie-item"><div class="pie-dot" style="background:var(--blue)"></div><span class="pie-label">Barba</span><span class="pie-pct">32%</span></div>
+        <div class="pie-item"><div class="pie-dot" style="background:var(--green)"></div><span class="pie-label">Pezinho</span><span class="pie-pct">13%</span></div>
+        <div class="pie-item"><div class="pie-dot" style="background:var(--red)"></div><span class="pie-label">Sobrancelha</span><span class="pie-pct">7%</span></div>
       </div>
     </div>
     <div class="chart-card">
       <div class="chart-header"><div><div class="chart-title">Meios de pagamento</div><div class="chart-sub">Preferencia dos clientes</div></div></div>
       <div class="pgto-list">
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--green)"></div><span class="pgto-label">Pix</span><span class="pgto-pct">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:0%;background:var(--green)"></div></div></div>
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--blue)"></div><span class="pgto-label">Credito</span><span class="pgto-pct">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:0%;background:var(--blue)"></div></div></div>
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--gold)"></div><span class="pgto-label">Dinheiro</span><span class="pgto-pct">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:0%;background:var(--gold)"></div></div></div>
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--red)"></div><span class="pgto-label">Debito</span><span class="pgto-pct">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:0%;background:var(--red)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--green)"></div><span class="pgto-label">Pix</span><span class="pgto-pct">52%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:52%;background:var(--green)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--blue)"></div><span class="pgto-label">Credito</span><span class="pgto-pct">24%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:24%;background:var(--blue)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--gold)"></div><span class="pgto-label">Dinheiro</span><span class="pgto-pct">16%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:16%;background:var(--gold)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--red)"></div><span class="pgto-label">Debito</span><span class="pgto-pct">8%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:8%;background:var(--red)"></div></div></div>
       </div>
     </div>
     <div class="chart-card">
       <div class="chart-header"><div><div class="chart-title">Produtos vendidos</div><div class="chart-sub">% de saida por produto</div></div></div>
       <div class="pgto-list">
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--gold)"></div><span class="pgto-label">Pomada</span><span class="pgto-pct">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:0%;background:var(--gold)"></div></div></div>
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--purple)"></div><span class="pgto-label">Balm</span><span class="pgto-pct">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:0%;background:var(--purple)"></div></div></div>
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--teal)"></div><span class="pgto-label">Oleo</span><span class="pgto-pct">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:0%;background:var(--teal)"></div></div></div>
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--green)"></div><span class="pgto-label">Leave-In</span><span class="pgto-pct">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:0%;background:var(--green)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--gold)"></div><span class="pgto-label">Pomada</span><span class="pgto-pct">38%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:38%;background:var(--gold)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--purple)"></div><span class="pgto-label">Balm</span><span class="pgto-pct">28%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:28%;background:var(--purple)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--teal)"></div><span class="pgto-label">Oleo</span><span class="pgto-pct">22%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:22%;background:var(--teal)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--green)"></div><span class="pgto-label">Leave-In</span><span class="pgto-pct">12%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:12%;background:var(--green)"></div></div></div>
       </div>
     </div>
   </div>
   <div class="spacer-bottom"></div>
-</div>
-
-<!-- DATE FILTER MODAL -->
-<div class="modal-overlay" id="dateFilterModal" style="display:none" onclick="closeDateFilter(event)">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-header">
-      <div class="modal-title">Filtrar por período</div>
-    </div>
-    <div class="modal-body">
-      <div><div class="field-label">Data inicial</div><input class="field-input" id="inputDataInicial" type="date"></div>
-      <div><div class="field-label">Data final</div><input class="field-input" id="inputDataFinal" type="date"></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeDateFilter()">Cancelar</button>
-      <button class="btn-save" onclick="applyDateFilter()">Aplicar</button>
-    </div>
-  </div>
 </div>
 
 <!-- MODAL -->
@@ -379,6 +360,10 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
         <div class="total-label">Valor cobrado</div>
         <input class="total-input" id="totalField" value="R$ 0">
       </div>
+      <div>
+        <div class="field-label">Observacao</div>
+        <textarea class="field-input" id="inputObs" rows="2" placeholder="Ex: cliente preferiu franja mais curta..." style="resize:none;line-height:1.5"></textarea>
+      </div>
     </div>
     <div class="modal-footer">
       <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
@@ -400,12 +385,14 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 <nav class="bottom-nav">
   <div class="nav-tab active" id="tab-agenda" onclick="goTo('agenda')"><span class="icon">&#128197;</span>Agenda</div>
   <div class="nav-tab" id="tab-dashboard" onclick="goTo('dashboard')"><span class="icon">&#128202;</span>Dashboard</div>
+  <div class="nav-tab" id="tab-clientes"><span class="icon">&#128100;</span>Clientes</div>
+  <div class="nav-tab" id="tab-config"><span class="icon">&#9881;</span>Config</div>
 </nav>
 
 <script>
 const SLOT_H = 56;
 const START_H = 8;
-const END_H = 22;
+const END_H = 20;
 const TOTAL_SLOTS = (END_H - START_H) * 2;
 
 function slotLabel(i) {
@@ -461,7 +448,8 @@ async function dbLoad(date) {
         price: d.preco,
         tipo: d.tipo,
         slots: d.slots,
-        pagamento: d.pagamento
+        pagamento: d.pagamento,
+        obs: d.obs || ''
       };
     });
   }
@@ -481,7 +469,7 @@ async function dbDelete(date, barbeiro, slot) {
 }
 
 // ── DATE STATE ──────────────────────────────────────────
-var currentDate = new Date(2026, 4, 23); // May 23 2026
+var currentDate = new Date(); // data atual do dispositivo
 var DAYS_PT = ['Domingo','Segunda','Terca','Quarta','Quinta','Sexta','Sabado'];
 var MONTHS_PT = ['janeiro','fevereiro','marco','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
 
@@ -509,8 +497,18 @@ function setFilter(filter, el) {
 }
 
 var appts = {
-  h: {},
-  b: {}
+  h: {
+    2:  { name:'Rafael Mendes',  svc:'Corte + Barba',           price:100, tipo:'fixo', slots:2 },
+    4:  { name:'Bruno Carvalho', svc:'Corte',                    price:50,  tipo:'fixo', slots:1 },
+    6:  { name:'Lucas Ferreira', svc:'Corte + Pomada',           price:80,  tipo:'novo', slots:2 },
+    10: { name:'Andre Souza',    svc:'Corte + Barba',            price:100, tipo:'fixo', slots:2 },
+    13: { name:'Diego Santos',   svc:'Barba',                    price:50,  tipo:'fixo', slots:1 }
+  },
+  b: {
+    3:  { name:'Marcos Oliveira',svc:'Corte + Sobrancelha',      price:60,  tipo:'novo', slots:1 },
+    7:  { name:'Caio Lima',      svc:'Corte + Barba + Pezinho',  price:120, tipo:'fixo', slots:3 },
+    16: { name:'Felipe Costa',   svc:'Corte',                    price:50,  tipo:'novo', slots:1 }
+  }
 };
 
 function occupiedSlots(barber) {
@@ -554,10 +552,11 @@ function renderAgenda() {
       if (appts[b][i]) {
         var a = appts[b][i];
         col.classList.add('has-appt');
+        var cardH = a.slots * SLOT_H - 6;
         var color = b === 'h' ? 'blue' : 'red';
         var tipoCap = a.tipo.charAt(0).toUpperCase() + a.tipo.slice(1);
         col.innerHTML =
-          '<div class="appt-card" onclick="openModal(\'' + b + '\',' + i + ')">' +
+          '<div class="appt-card" style="height:' + cardH + 'px" onclick="openModal(\'' + b + '\',' + i + ')">' +
             '<div class="appt-accent ' + color + '"></div>' +
             '<div class="appt-body ' + color + '-bg">' +
               '<div>' +
@@ -587,9 +586,14 @@ function renderAgenda() {
 }
 
 function updateSummary() {
-  var all = Object.values(appts.h).concat(Object.values(appts.b));
-  var fat = all.reduce(function(s,a){ return s + a.price; }, 0);
-  var atd = all.length;
+  var list;
+  if (activeFilter === 'all') {
+    list = Object.values(appts.h).concat(Object.values(appts.b));
+  } else {
+    list = Object.values(appts[activeFilter]);
+  }
+  var fat = list.reduce(function(s,a){ return s + a.price; }, 0);
+  var atd = list.length;
   document.getElementById('sumFat').textContent = 'R$ ' + fat;
   document.getElementById('sumAtd').textContent = atd;
   document.getElementById('sumTkt').textContent = atd ? 'R$ ' + Math.round(fat/atd) : 'R$ 0';
@@ -634,6 +638,7 @@ function openModal(barber, slotIndex) {
     el.querySelector('.svc-check').textContent = '';
   });
   document.getElementById('totalField').value = existing ? 'R$ ' + existing.price : 'R$ 0';
+  document.getElementById('inputObs').value = existing && existing.obs ? existing.obs : '';
   modalTotal = existing ? existing.price : 0;
   document.getElementById('selDuracao').value = existing ? String(existing.slots) : '2';
 
@@ -721,14 +726,16 @@ async function saveAppt() {
   try {
     if (editingBarber !== null && editingSlot !== null && appts[editingBarber][editingSlot] && appts[editingBarber][editingSlot].id) {
       // UPDATE existing
+      var obs = document.getElementById('inputObs').value.trim();
       await dbUpdate(currentDate, editingBarber, editingSlot, {
         nome: nome, servico: svc, preco: price,
-        slots: durSlots, tipo: tipo, pagamento: pgto
+        slots: durSlots, tipo: tipo, pagamento: pgto, obs: obs
       });
     } else {
       // INSERT new
+      var obs = document.getElementById('inputObs').value.trim();
       await dbSave(currentDate, barber, slotIdx, {
-        nome: nome, servico: svc, preco: price, slots: durSlots, tipo: tipo, pagamento: pgto
+        nome: nome, servico: svc, preco: price, slots: durSlots, tipo: tipo, pagamento: pgto, obs: obs
       });
     }
     await dbLoad(currentDate);
@@ -741,93 +748,150 @@ async function saveAppt() {
 }
 
 var chartsInit = false;
-var activePeriod = 'mes';
-var customDateStart = null;
-var customDateEnd = null;
-
-function getDateRange(period) {
-  var end = new Date(currentDate);
-  var start = new Date(currentDate);
-  
-  switch(period) {
-    case 'dia':
-      // Hoje = somente o dia atual
-      return { start: start, end: end };
-    case 'semana':
-      // Últimos 7 dias
-      start.setDate(start.getDate() - 6);
-      return { start: start, end: end };
-    case 'mes':
-      // Últimos 30 dias
-      start.setDate(start.getDate() - 29);
-      return { start: start, end: end };
-    case 'ano':
-      // Últimos 365 dias
-      start.setDate(start.getDate() - 364);
-      return { start: start, end: end };
-    case 'custom':
-      if (customDateStart && customDateEnd) {
-        return { start: new Date(customDateStart), end: new Date(customDateEnd) };
-      }
-      return { start: start, end: end };
-    default:
-      return { start: start, end: end };
-  }
-}
-
-function setPeriod(period, el) {
-  activePeriod = period;
-  document.querySelectorAll('.period-btn').forEach(function(b){ b.classList.remove('active'); });
-  if(el) el.classList.add('active');
-  updateDashboard();
-}
-
-function openDateFilter() {
-  var today = toISO(new Date());
-  document.getElementById('inputDataInicial').value = customDateStart || today;
-  document.getElementById('inputDataFinal').value = customDateEnd || today;
-  document.getElementById('dateFilterModal').style.display = 'flex';
-}
-
-function closeDateFilter(e) {
-  if (!e || e.target === document.getElementById('dateFilterModal'))
-    document.getElementById('dateFilterModal').style.display = 'none';
-}
-
-function applyDateFilter() {
-  var start = document.getElementById('inputDataInicial').value;
-  var end = document.getElementById('inputDataFinal').value;
-  
-  if (start && end && start <= end) {
-    customDateStart = start;
-    customDateEnd = end;
-    activePeriod = 'custom';
-    
-    // Update label
-    var startDate = new Date(start);
-    var endDate = new Date(end);
-    var label = startDate.getDate() + ' ' + MONTHS_PT[startDate.getMonth()] + ' - ' +
-                endDate.getDate() + ' ' + MONTHS_PT[endDate.getMonth()];
-    document.getElementById('dateRangeLabel').textContent = label;
-    
-    closeDateFilter();
-    updateDashboard();
-  } else {
-    alert('Datas inválidas. Verifique se a data inicial é menor que a final.');
-  }
-}
-
-function updateDashboard() {
-  if (chartsInit) initCharts();
-}
-
 function goTo(screen) {
   document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
   document.querySelectorAll('.nav-tab').forEach(function(t){ t.classList.remove('active'); });
   document.getElementById('screen-' + screen).classList.add('active');
   document.getElementById('tab-' + screen).classList.add('active');
   window.scrollTo(0,0);
-  if (screen === 'dashboard' && !chartsInit) { chartsInit = true; initCharts(); }
+  if (screen === 'dashboard') { updateDashboard(); }
+}
+
+function updateDashboard() {
+  // Collect all appointments from all loaded days (for now use current day)
+  var allH = Object.values(appts.h);
+  var allB = Object.values(appts.b);
+  var all  = allH.concat(allB);
+
+  // KPIs
+  var fat  = all.reduce(function(s,a){ return s+a.price; },0);
+  var atd  = all.length;
+  var tkt  = atd ? Math.round(fat/atd) : 0;
+  var novos = all.filter(function(a){ return a.tipo==='novo'; }).length;
+  var fixos = atd - novos;
+  var pctNovos = atd ? Math.round(novos/atd*100) : 0;
+  var pctFixos = 100 - pctNovos;
+
+  var fatH = allH.reduce(function(s,a){ return s+a.price; },0);
+  var fatB = allB.reduce(function(s,a){ return s+a.price; },0);
+  var totalFat = fatH + fatB || 1;
+
+  document.querySelector('.kpi-card.gold .kpi-value').textContent = 'R$ ' + fat;
+  document.querySelector('.kpi-card.blue .kpi-value').textContent = atd;
+  document.querySelector('.kpi-card.green .kpi-value').textContent = 'R$ ' + tkt;
+  document.querySelector('.kpi-card.red .kpi-value').innerHTML =
+    novos + ' <span style="color:var(--muted);font-size:14px">/ ' + fixos + '</span>';
+  document.querySelector('.kpi-card.red .kpi-sub').textContent =
+    pctNovos + '% novos - ' + pctFixos + '% fixos';
+
+  // Barber performance bars
+  var pctH = Math.round(fatH/totalFat*100);
+  var pctBt = 100 - pctH;
+  var barH = document.querySelector('.bar-fill[style*="blue"]');
+  var barBt = document.querySelector('.bar-fill[style*="red"]');
+  if (barH) barH.style.width = pctH + '%';
+  if (barBt) barBt.style.width = pctBt + '%';
+
+  var statVals = document.querySelectorAll('.barber-stat-val');
+  if (statVals[0]) statVals[0].textContent = 'R$ ' + fatH;
+  if (statVals[1]) statVals[1].textContent = allH.length;
+  if (statVals[2]) statVals[2].textContent = 'R$ ' + fatB;
+  if (statVals[3]) statVals[3].textContent = allB.length;
+
+  // Count services
+  var svcCount = { Corte:0, Barba:0, Pezinho:0, Sobrancelha:0 };
+  all.forEach(function(a) {
+    Object.keys(svcCount).forEach(function(k) {
+      if (a.svc && a.svc.indexOf(k) >= 0) svcCount[k]++;
+    });
+  });
+  var totalSvc = Object.values(svcCount).reduce(function(s,v){ return s+v; },1);
+
+  // Payment methods
+  var pgtoCount = { pix:0, credito:0, dinheiro:0, debito:0 };
+  all.forEach(function(a) {
+    var p = (a.pagamento||'pix').toLowerCase();
+    if (pgtoCount[p] !== undefined) pgtoCount[p]++;
+  });
+  var totalPgto = all.length || 1;
+
+  // Update pgto bars
+  var pgtoItems = document.querySelectorAll('#screen-dashboard .pgto-list:first-of-type .pgto-bar-fill');
+  var pgtoValues = [
+    Math.round(pgtoCount.pix/totalPgto*100),
+    Math.round(pgtoCount.credito/totalPgto*100),
+    Math.round(pgtoCount.dinheiro/totalPgto*100),
+    Math.round(pgtoCount.debito/totalPgto*100)
+  ];
+  var pgtoPcts = document.querySelectorAll('#screen-dashboard .chart-card:nth-child(5) .pgto-pct');
+  var pgtoBars = document.querySelectorAll('#screen-dashboard .chart-card:nth-child(5) .pgto-bar-fill');
+  pgtoValues.forEach(function(v,i) {
+    if (pgtoPcts[i]) pgtoPcts[i].textContent = v + '%';
+    if (pgtoBars[i]) pgtoBars[i].style.width = v + '%';
+  });
+
+  // Charts
+  if (!window._chartsBuilt) {
+    window._chartsBuilt = true;
+    buildCharts(svcCount, totalSvc);
+  } else {
+    // Update pie
+    if (window._pieChart) {
+      window._pieChart.data.datasets[0].data = [svcCount.Corte, svcCount.Barba, svcCount.Pezinho, svcCount.Sobrancelha];
+      window._pieChart.update();
+    }
+  }
+
+  // Update pie legend pcts
+  var piePcts = document.querySelectorAll('.pie-pct');
+  var pieKeys = ['Corte','Barba','Pezinho','Sobrancelha'];
+  pieKeys.forEach(function(k,i) {
+    var pct = Math.round(svcCount[k]/totalSvc*100);
+    if (piePcts[i]) piePcts[i].textContent = pct + '%';
+  });
+}
+
+function buildCharts(svcCount, totalSvc) {
+  var gold='#c9a84c', blue='#6a9fd8', red='#e07060', green='#6abf7c';
+  var border='#2a2a2a', muted='#555';
+  var base = { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+    scales:{ x:{ticks:{color:muted,font:{size:10}},grid:{color:border}}, y:{ticks:{color:muted,font:{size:10}},grid:{color:border}} }
+  };
+
+  new Chart(document.getElementById('lineChart'),{
+    type:'line',
+    data:{ labels:['1','3','5','7','9','11','13','15','17','19','21','23'],
+      datasets:[{ data:[280,340,390,310,420,480,350,520,460,580,540,620],
+        borderColor:gold, backgroundColor:'rgba(201,168,76,.08)',
+        borderWidth:2, pointRadius:2, pointBackgroundColor:gold, fill:true, tension:.4 }]
+    },
+    options:Object.assign({},base,{scales:{
+      x:{ticks:{color:muted,font:{size:10}},grid:{color:border}},
+      y:{ticks:{color:muted,font:{size:10},callback:function(v){return 'R$'+v}},grid:{color:border}}
+    }})
+  });
+
+  new Chart(document.getElementById('barChart'),{
+    type:'bar',
+    data:{ labels:['Seg','Ter','Qua','Qui','Sex','Sab'],
+      datasets:[{ data:[310,280,340,320,480,720],
+        backgroundColor:['rgba(106,159,216,.5)','rgba(106,159,216,.5)','rgba(106,159,216,.5)','rgba(106,159,216,.5)','rgba(201,168,76,.6)','rgba(201,168,76,.9)'],
+        borderRadius:6, borderWidth:0 }]
+    },
+    options:Object.assign({},base,{scales:{
+      x:{ticks:{color:muted,font:{size:11}},grid:{color:border}},
+      y:{ticks:{color:muted,font:{size:10},callback:function(v){return 'R$'+v}},grid:{color:border}}
+    }})
+  });
+
+  window._pieChart = new Chart(document.getElementById('pieServ'),{
+    type:'doughnut',
+    data:{ labels:['Corte','Barba','Pezinho','Sobrancelha'],
+      datasets:[{ data:[svcCount.Corte||1, svcCount.Barba, svcCount.Pezinho, svcCount.Sobrancelha],
+        backgroundColor:[gold,blue,green,red], borderColor:'#1a1a1a', borderWidth:2 }]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, cutout:'65%' }
+  });
 }
 
 function initCharts() {
@@ -839,7 +903,7 @@ function initCharts() {
   new Chart(document.getElementById('lineChart'),{
     type:'line',
     data:{ labels:['1','3','5','7','9','11','13','15','17','19','21','23'],
-      datasets:[{ data:[0,0,0,0,0,0,0,0,0,0,0,0],
+      datasets:[{ data:[280,340,390,310,420,480,350,520,460,580,540,620],
         borderColor:gold, backgroundColor:'rgba(201,168,76,.08)',
         borderWidth:2, pointRadius:2, pointBackgroundColor:gold, fill:true, tension:.4 }]
     },
@@ -851,7 +915,7 @@ function initCharts() {
   new Chart(document.getElementById('barChart'),{
     type:'bar',
     data:{ labels:['Seg','Ter','Qua','Qui','Sex','Sab'],
-      datasets:[{ data:[0,0,0,0,0,0],
+      datasets:[{ data:[310,280,340,320,480,720],
         backgroundColor:['rgba(106,159,216,.5)','rgba(106,159,216,.5)','rgba(106,159,216,.5)','rgba(106,159,216,.5)','rgba(201,168,76,.6)','rgba(201,168,76,.9)'],
         borderRadius:6, borderWidth:0 }]
     },
@@ -863,7 +927,7 @@ function initCharts() {
   new Chart(document.getElementById('pieServ'),{
     type:'doughnut',
     data:{ labels:['Corte','Barba','Pezinho','Sobrancelha'],
-      datasets:[{ data:[0,0,0,0], backgroundColor:[gold,blue,green,red], borderColor:'#1a1a1a', borderWidth:2 }]
+      datasets:[{ data:[48,32,13,7], backgroundColor:[gold,blue,green,red], borderColor:'#1a1a1a', borderWidth:2 }]
     },
     options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, cutout:'65%' }
   });
