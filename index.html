@@ -362,7 +362,6 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
       </div>
       <div>
         <div class="field-label">Observacao</div>
-        <input class="field-input" id="inputObs" type="text" placeholder="Ex: alergia a tal produto">
       </div>
     </div>
     <div class="modal-footer">
@@ -749,7 +748,14 @@ function setPeriod(period, el) {
   document.querySelectorAll('.period-btn').forEach(function(b){ b.classList.remove('active'); });
   el.classList.add('active');
   window.currentPeriod = period;
-  updateDashboard();
+  showLoading(true);
+  loadDashboardData(period).then(function() {
+    updateDashboard();
+    showLoading(false);
+  }).catch(function(e) {
+    console.error('Erro ao carregar dados:', e);
+    showLoading(false);
+  });
 }
 
 function openDatePicker() {
@@ -759,10 +765,20 @@ function openDatePicker() {
   if (!endDate) return;
   document.getElementById('dateRangeLabel').textContent = startDate.slice(0,5) + ' - ' + endDate.slice(0,5);
   window.currentPeriod = 'custom';
-  updateDashboard();
+  window.customStartDate = parseDate(startDate);
+  window.customEndDate = parseDate(endDate);
+  showLoading(true);
+  loadDashboardData('custom').then(function() {
+    updateDashboard();
+    showLoading(false);
+  }).catch(function(e) {
+    console.error('Erro ao carregar dados customizados:', e);
+    showLoading(false);
+  });
 }
 
 window.currentPeriod = 'mes';
+var dashboardAppts = { h: {}, b: {} };
 
 var chartsInit = false;
 function goTo(screen) {
@@ -771,13 +787,85 @@ function goTo(screen) {
   document.getElementById('screen-' + screen).classList.add('active');
   document.getElementById('tab-' + screen).classList.add('active');
   window.scrollTo(0,0);
-  if (screen === 'dashboard') { updateDashboard(); }
+  if (screen === 'dashboard') { 
+    showLoading(true);
+    loadDashboardData(window.currentPeriod).then(function() {
+      updateDashboard();
+      showLoading(false);
+    }).catch(function(e) {
+      console.error('Erro ao carregar dashboard:', e);
+      showLoading(false);
+    });
+  }
 }
 
+async function loadDashboardData(period) {
+  dashboardAppts = { h: {}, b: {} };
+  var dates = [];
+  var today = new Date(currentDate);
+  
+  if (period === 'hoje') {
+    dates.push(new Date(today));
+  } else if (period === 'semana') {
+    var start = new Date(today);
+    start.setDate(start.getDate() - start.getDay());
+    for (var i = 0; i < 7; i++) {
+      dates.push(new Date(start));
+      start.setDate(start.getDate() + 1);
+    }
+  } else if (period === 'mes') {
+    var start = new Date(today.getFullYear(), today.getMonth(), 1);
+    var end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    for (var d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      dates.push(new Date(d));
+    }
+  } else if (period === 'ano') {
+    var start = new Date(today.getFullYear(), 0, 1);
+    var end = new Date(today.getFullYear(), 11, 31);
+    for (var d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      dates.push(new Date(d));
+    }
+  } else if (period === 'custom') {
+    var start = window.customStartDate || today;
+    var end = window.customEndDate || today;
+    for (var d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      dates.push(new Date(d));
+    }
+  }
+  
+  for (var i = 0; i < dates.length; i++) {
+    await loadDashboardDateData(dates[i]);
+  }
+}
+
+async function loadDashboardDateData(date) {
+  var iso = toISO(date);
+  var barbers = ['h', 'b'];
+  for (var bi = 0; bi < barbers.length; bi++) {
+    var b = barbers[bi];
+    var snap = await db.collection('agendamentos').doc(iso).collection(b).get();
+    snap.forEach(function(doc) {
+      var d = doc.data();
+      dashboardAppts[b][iso + '_' + doc.id] = {
+        id: doc.id,
+        name: d.nome,
+        svc: d.servico,
+        price: d.preco,
+        tipo: d.tipo,
+        slots: d.slots,
+        pagamento: d.pagamento,
+        obs: d.obs || ''
+      };
+    });
+  }
+}
+
+var chartsInit = false;
+
 function updateDashboard() {
-  // Collect all appointments from all loaded days (for now use current day)
-  var allH = Object.values(appts.h);
-  var allB = Object.values(appts.b);
+  // Collect all appointments from dashboard data (aggregated from multiple days)
+  var allH = Object.values(dashboardAppts.h);
+  var allB = Object.values(dashboardAppts.b);
   var all  = allH.concat(allB);
 
   // KPIs
@@ -956,6 +1044,15 @@ function toISO(d) {
   var m = String(d.getMonth()+1).padStart(2,'0');
   var day = String(d.getDate()).padStart(2,'0');
   return y + '-' + m + '-' + day;
+}
+
+function parseDate(str) {
+  // Converte dd/mm/yyyy em Date
+  var parts = str.split('/');
+  if (parts.length === 3) {
+    return new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
+  }
+  return new Date();
 }
 
 function showLoading(on) {
