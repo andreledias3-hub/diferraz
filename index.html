@@ -467,7 +467,8 @@ async function dbDelete(date, barbeiro, slot) {
 }
 
 // ── DATE STATE ──────────────────────────────────────────
-var currentDate = new Date(); // data atual do dispositivo
+var now = new Date();
+var currentDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 var DAYS_PT = ['Domingo','Segunda','Terca','Quarta','Quinta','Sexta','Sabado'];
 var MONTHS_PT = ['janeiro','fevereiro','marco','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
 
