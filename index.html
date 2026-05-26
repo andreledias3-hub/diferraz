@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Di.Ferraz</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&family=Righteous&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -34,8 +34,8 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 .date-strip{display:flex;align-items:center;justify-content:space-between;padding:0 16px 12px;background:var(--dark)}
 .date-arrow{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .date-center{text-align:center}
-.date-main{font-size:14px;font-weight:600;color:var(--text)}
-.date-sub{font-size:11px;color:var(--muted);margin-top:1px}
+.date-main{font-size:14px;font-weight:600;color:var(--text);font-family:'Superstar M54','Righteous',sans-serif}
+.date-sub{font-size:11px;color:var(--muted);margin-top:1px;font-family:'Superstar M54','Righteous',sans-serif}
 
 /* BARBER TABS */
 .barber-tabs{display:flex;gap:8px;padding:12px 16px;background:var(--dark);border-bottom:1px solid var(--border);overflow-x:auto}
@@ -50,22 +50,22 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 .sum-item{flex:1;padding:10px 0;text-align:center;border-right:1px solid var(--border)}
 .sum-item:last-child{border-right:none}
 .sum-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.sum-value{font-size:16px;font-weight:600;color:var(--gold);font-family:'Playfair Display',serif;margin-top:2px}
+.sum-value{font-size:16px;font-weight:600;color:var(--gold);font-family:'Superstar M54','Righteous',sans-serif;margin-top:2px}
 .sum-value.n{color:var(--text)}
 
 /* AGENDA GRID */
 .agenda-header{display:grid;grid-template-columns:48px 1fr 1fr;border-bottom:2px solid var(--border);background:var(--dark)}
-.ah-time{padding:10px 0;text-align:center;font-size:11px;color:var(--muted)}
+.ah-time{padding:10px 0;text-align:center;font-size:11px;color:var(--muted);font-family:'Superstar M54','Righteous',sans-serif}
 .ah-barber{padding:10px 12px;display:flex;align-items:center;gap:8px;border-left:1px solid var(--border)}
 .ah-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .ah-name{font-size:13px;font-weight:600;color:var(--text)}
-.ah-count{font-size:11px;color:var(--muted);margin-left:auto}
+.ah-count{font-size:11px;color:var(--muted);margin-left:auto;font-family:'Superstar M54','Righteous',sans-serif}
 
 .time-row{display:grid;grid-template-columns:48px 1fr 1fr;min-height:var(--sloth)}
 .time-row:not(:last-child){border-bottom:1px solid var(--border)}
 .time-row.half{border-bottom:1px dashed rgba(255,255,255,.06)}
-.tr-time{display:flex;align-items:flex-start;justify-content:flex-end;padding:6px 8px 0 0;font-size:11px;color:var(--muted);font-weight:500}
-.tr-time.dim{color:rgba(102,102,102,.4);font-size:10px}
+.tr-time{display:flex;align-items:flex-start;justify-content:flex-end;padding:6px 8px 0 0;font-size:11px;color:var(--muted);font-weight:500;font-family:'Superstar M54','Righteous',sans-serif}
+.tr-time.dim{color:rgba(102,102,102,.4);font-size:10px;font-family:'Superstar M54','Righteous',sans-serif}
 .tr-col{border-left:1px solid var(--border);min-height:var(--sloth);position:relative;cursor:pointer;transition:.1s}
 .tr-col.has-appt{cursor:default}
 .tr-col:not(.has-appt):hover::after{content:'+ novo';position:absolute;inset:4px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--gold);opacity:.6;border:1px dashed rgba(201,168,76,.3);border-radius:8px;pointer-events:none}
@@ -84,8 +84,8 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 .appt-name{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .appt-svc{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
 .appt-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
-.appt-price{font-size:12px;font-weight:600;color:var(--gold)}
-.appt-dur{font-size:10px;color:var(--muted)}
+.appt-price{font-size:12px;font-weight:600;color:var(--gold);font-family:'Superstar M54','Righteous',sans-serif}
+.appt-dur{font-size:10px;color:var(--muted);font-family:'Superstar M54','Righteous',sans-serif}
 .appt-badge{font-size:10px;padding:1px 6px;border-radius:6px;font-weight:500;flex-shrink:0}
 .badge-novo{background:rgba(201,168,76,.15);color:var(--gold)}
 .badge-fixo{background:rgba(106,159,216,.12);color:var(--blue)}
@@ -116,11 +116,11 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 .svc-check{position:absolute;top:8px;right:8px;width:18px;height:18px;border-radius:5px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;background:var(--card)}
 .svc-item.sel .svc-check{background:var(--gold);border-color:var(--gold);color:var(--black)}
 .svc-name{font-size:13px;font-weight:600;color:var(--text)}
-.svc-price{font-size:12px;color:var(--muted)}
+.svc-price{font-size:12px;color:var(--muted);font-family:'Superstar M54','Righteous',sans-serif}
 .svc-item.sel .svc-price{color:var(--gold)}
 .total-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
 .total-label{font-size:13px;color:var(--muted)}
-.total-input{font-family:'Playfair Display',serif;font-size:26px;color:var(--gold);background:transparent;border:none;outline:none;text-align:right;width:160px}
+.total-input{font-family:'Superstar M54','Righteous',sans-serif;font-size:26px;color:var(--gold);background:transparent;border:none;outline:none;text-align:right;width:160px}
 .modal-footer{padding:12px 20px 20px;display:flex;gap:10px}
 .btn-cancel{flex:1;padding:14px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer}
 .btn-save{flex:2;padding:14px;border-radius:12px;background:var(--gold);border:none;color:var(--black);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer}
@@ -130,7 +130,7 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 .period-bar::-webkit-scrollbar{display:none}
 .period-btn{flex-shrink:0;padding:7px 18px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--muted);transition:.15s}
 .period-btn.active{background:var(--gold-dim);color:var(--gold);border-color:var(--gold)}
-.period-custom{flex-shrink:0;padding:7px 14px;border-radius:20px;font-size:12px;border:1px solid var(--border);background:var(--card);color:var(--muted);display:flex;align-items:center;gap:5px}
+.period-custom{flex-shrink:0;padding:7px 14px;border-radius:20px;font-size:12px;border:1px solid var(--border);background:var(--card);color:var(--muted);display:flex;align-items:center;gap:5px;font-family:'Superstar M54','Righteous',sans-serif}
 .dash-content{padding:14px 16px;display:flex;flex-direction:column;gap:12px}
 .kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .kpi-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;position:relative;overflow:hidden}
@@ -138,16 +138,16 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 .kpi-card.gold::before{background:var(--gold)}.kpi-card.blue::before{background:var(--blue)}
 .kpi-card.green::before{background:var(--green)}.kpi-card.red::before{background:var(--red)}
 .kpi-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
-.kpi-value{font-family:'Playfair Display',serif;font-size:24px;line-height:1;color:var(--white)}
+.kpi-value{font-family:'Superstar M54','Righteous',sans-serif;font-size:24px;line-height:1;color:var(--white)}
 .kpi-value.gold-c{color:var(--gold)}
-.kpi-delta{display:inline-block;font-size:11px;font-weight:600;padding:2px 7px;border-radius:6px;margin-top:6px}
+.kpi-delta{display:inline-block;font-size:11px;font-weight:600;padding:2px 7px;border-radius:6px;margin-top:6px;font-family:'Superstar M54','Righteous',sans-serif}
 .kpi-delta.up{background:rgba(106,191,124,.15);color:var(--green)}
 .kpi-sub{font-size:11px;color:var(--muted);margin-top:5px}
 .chart-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px}
 .chart-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
 .chart-title{font-size:14px;font-weight:600;color:var(--text)}
 .chart-sub{font-size:11px;color:var(--muted);margin-top:2px}
-.chart-badge{font-size:11px;padding:3px 9px;border-radius:6px;background:var(--gold-dim);color:var(--gold);font-weight:500;flex-shrink:0}
+.chart-badge{font-size:11px;padding:3px 9px;border-radius:6px;background:var(--gold-dim);color:var(--gold);font-weight:500;flex-shrink:0;font-family:'Superstar M54','Righteous',sans-serif}
 .chart-wrap{position:relative;height:180px}
 .barber-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .barber-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px}
@@ -156,7 +156,7 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 .barber-card-name{font-size:13px;font-weight:600;color:var(--text)}
 .barber-stat{margin-bottom:8px}
 .barber-stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
-.barber-stat-val{font-family:'Playfair Display',serif;font-size:18px}
+.barber-stat-val{font-family:'Superstar M54','Righteous',sans-serif;font-size:18px}
 .barber-stat-val.gold{color:var(--gold)}.barber-stat-val.neutral{color:var(--text)}
 .bar-track{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-top:10px}
 .bar-fill{height:100%;border-radius:3px}
@@ -164,14 +164,14 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 .pgto-item{display:flex;align-items:center;gap:10px}
 .pgto-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 .pgto-label{font-size:13px;color:var(--text);flex:1}
-.pgto-pct{font-size:13px;font-weight:600;color:var(--gold)}
+.pgto-pct{font-size:13px;font-weight:600;color:var(--gold);font-family:'Superstar M54','Righteous',sans-serif}
 .pgto-bar{height:4px;background:var(--border);border-radius:2px;margin-top:3px;overflow:hidden}
 .pgto-bar-fill{height:100%;border-radius:2px}
 .pie-legend{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:12px}
 .pie-item{display:flex;align-items:center;gap:6px}
 .pie-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .pie-label{font-size:12px;color:var(--muted)}
-.pie-pct{font-size:12px;font-weight:600;color:var(--text);margin-left:auto}
+.pie-pct{font-size:12px;font-weight:600;color:var(--text);margin-left:auto;font-family:'Superstar M54','Righteous',sans-serif}
 .section-title{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;padding:4px 0}
 
 /* BOTTOM NAV */
@@ -224,9 +224,9 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
     <div style="display:flex;align-items:center;gap:10px"><div class="logo-mark">D</div><span class="page-title">Dashboard</span></div>
   </div>
   <div class="period-bar">
-    <div class="period-btn">Hoje</div><div class="period-btn">Semana</div>
-    <div class="period-btn active">Mes</div><div class="period-btn">Ano</div>
-    <div class="period-custom">&#128197; 01-24 mai</div>
+    <div class="period-btn" onclick="setPeriod('hoje',this)">Hoje</div><div class="period-btn" onclick="setPeriod('semana',this)">Semana</div>
+    <div class="period-btn active" onclick="setPeriod('mes',this)">Mes</div><div class="period-btn" onclick="setPeriod('ano',this)">Ano</div>
+    <div class="period-custom" onclick="openDatePicker()">&#128197; <span id="dateRangeLabel">01-24 mai</span></div>
   </div>
   <div class="dash-content">
     <div class="kpi-grid">
@@ -262,28 +262,28 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
       <div class="chart-header"><div><div class="chart-title">Mix de servicos</div><div class="chart-sub">% de saida</div></div></div>
       <div class="chart-wrap" style="height:160px"><canvas id="pieServ"></canvas></div>
       <div class="pie-legend">
-        <div class="pie-item"><div class="pie-dot" style="background:var(--gold)"></div><span class="pie-label">Corte</span><span id="svc-qty-0" style="font-size:11px;color:var(--muted);margin-left:2px"></span><span class="pie-pct" id="svc-pct-0">0%</span></div>
-        <div class="pie-item"><div class="pie-dot" style="background:var(--blue)"></div><span class="pie-label">Barba</span><span id="svc-qty-1" style="font-size:11px;color:var(--muted);margin-left:2px"></span><span class="pie-pct" id="svc-pct-1">0%</span></div>
-        <div class="pie-item"><div class="pie-dot" style="background:var(--green)"></div><span class="pie-label">Pezinho</span><span id="svc-qty-2" style="font-size:11px;color:var(--muted);margin-left:2px"></span><span class="pie-pct" id="svc-pct-2">0%</span></div>
-        <div class="pie-item"><div class="pie-dot" style="background:var(--red)"></div><span class="pie-label">Sobrancelha</span><span id="svc-qty-3" style="font-size:11px;color:var(--muted);margin-left:2px"></span><span class="pie-pct" id="svc-pct-3">0%</span></div>
+        <div class="pie-item"><div class="pie-dot" style="background:var(--gold)"></div><span class="pie-label">Corte</span><span class="pie-pct">48%</span></div>
+        <div class="pie-item"><div class="pie-dot" style="background:var(--blue)"></div><span class="pie-label">Barba</span><span class="pie-pct">32%</span></div>
+        <div class="pie-item"><div class="pie-dot" style="background:var(--green)"></div><span class="pie-label">Pezinho</span><span class="pie-pct">13%</span></div>
+        <div class="pie-item"><div class="pie-dot" style="background:var(--red)"></div><span class="pie-label">Sobrancelha</span><span class="pie-pct">7%</span></div>
       </div>
     </div>
     <div class="chart-card">
       <div class="chart-header"><div><div class="chart-title">Meios de pagamento</div><div class="chart-sub">Preferencia dos clientes</div></div></div>
-      <div class="pgto-list" id="pgtoList">
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--green)"></div><span class="pgto-label">Pix</span><span class="pgto-qty" id="pgto-qty-0" style="font-size:11px;color:var(--muted);margin-left:4px"></span><span class="pgto-pct" id="pgto-pct-0">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" id="pgto-bar-0" style="width:0%;background:var(--green)"></div></div></div>
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--blue)"></div><span class="pgto-label">Credito</span><span class="pgto-qty" id="pgto-qty-1" style="font-size:11px;color:var(--muted);margin-left:4px"></span><span class="pgto-pct" id="pgto-pct-1">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" id="pgto-bar-1" style="width:0%;background:var(--blue)"></div></div></div>
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--gold)"></div><span class="pgto-label">Dinheiro</span><span class="pgto-qty" id="pgto-qty-2" style="font-size:11px;color:var(--muted);margin-left:4px"></span><span class="pgto-pct" id="pgto-pct-2">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" id="pgto-bar-2" style="width:0%;background:var(--gold)"></div></div></div>
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--red)"></div><span class="pgto-label">Debito</span><span class="pgto-qty" id="pgto-qty-3" style="font-size:11px;color:var(--muted);margin-left:4px"></span><span class="pgto-pct" id="pgto-pct-3">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" id="pgto-bar-3" style="width:0%;background:var(--red)"></div></div></div>
+      <div class="pgto-list">
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--green)"></div><span class="pgto-label">Pix</span><span class="pgto-pct">52%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:52%;background:var(--green)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--blue)"></div><span class="pgto-label">Credito</span><span class="pgto-pct">24%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:24%;background:var(--blue)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--gold)"></div><span class="pgto-label">Dinheiro</span><span class="pgto-pct">16%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:16%;background:var(--gold)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--red)"></div><span class="pgto-label">Debito</span><span class="pgto-pct">8%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:8%;background:var(--red)"></div></div></div>
       </div>
     </div>
     <div class="chart-card">
       <div class="chart-header"><div><div class="chart-title">Produtos vendidos</div><div class="chart-sub">% de saida por produto</div></div></div>
-      <div class="pgto-list" id="prodList">
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--gold)"></div><span class="pgto-label">Pomada</span><span class="pgto-qty" id="prod-qty-0" style="font-size:11px;color:var(--muted);margin-left:4px"></span><span class="pgto-pct" id="prod-pct-0">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" id="prod-bar-0" style="width:0%;background:var(--gold)"></div></div></div>
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--purple)"></div><span class="pgto-label">Balm</span><span class="pgto-qty" id="prod-qty-1" style="font-size:11px;color:var(--muted);margin-left:4px"></span><span class="pgto-pct" id="prod-pct-1">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" id="prod-bar-1" style="width:0%;background:var(--purple)"></div></div></div>
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--teal)"></div><span class="pgto-label">Oleo</span><span class="pgto-qty" id="prod-qty-2" style="font-size:11px;color:var(--muted);margin-left:4px"></span><span class="pgto-pct" id="prod-pct-2">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" id="prod-bar-2" style="width:0%;background:var(--teal)"></div></div></div>
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--green)"></div><span class="pgto-label">Leave-In</span><span class="pgto-qty" id="prod-qty-3" style="font-size:11px;color:var(--muted);margin-left:4px"></span><span class="pgto-pct" id="prod-pct-3">0%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" id="prod-bar-3" style="width:0%;background:var(--green)"></div></div></div>
+      <div class="pgto-list">
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--gold)"></div><span class="pgto-label">Pomada</span><span class="pgto-pct">38%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:38%;background:var(--gold)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--purple)"></div><span class="pgto-label">Balm</span><span class="pgto-pct">28%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:28%;background:var(--purple)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--teal)"></div><span class="pgto-label">Oleo</span><span class="pgto-pct">22%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:22%;background:var(--teal)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--green)"></div><span class="pgto-label">Leave-In</span><span class="pgto-pct">12%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:12%;background:var(--green)"></div></div></div>
       </div>
     </div>
   </div>
@@ -357,7 +357,7 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
         </div>
       </div>
       <div class="total-card">
-        <div class="total-label">Valor cobrado?</div>
+        <div class="total-label">Valor cobrado</div>
         <input class="total-input" id="totalField" value="R$ 0">
       </div>
       <div>
@@ -385,8 +385,6 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 <nav class="bottom-nav">
   <div class="nav-tab active" id="tab-agenda" onclick="goTo('agenda')"><span class="icon">&#128197;</span>Agenda</div>
   <div class="nav-tab" id="tab-dashboard" onclick="goTo('dashboard')"><span class="icon">&#128202;</span>Dashboard</div>
-  <div class="nav-tab" id="tab-clientes"><span class="icon">&#128100;</span>Clientes</div>
-  <div class="nav-tab" id="tab-config"><span class="icon">&#9881;</span>Config</div>
 </nav>
 
 <script>
@@ -747,6 +745,42 @@ async function saveAppt() {
   }
 }
 
+function setPeriod(period, el) {
+  document.querySelectorAll('.period-btn').forEach(function(b){ b.classList.remove('active'); });
+  el.classList.add('active');
+  window.currentPeriod = period;
+  showLoading(true);
+  loadDashboardData(period).then(function() {
+    updateDashboard();
+    showLoading(false);
+  }).catch(function(e) {
+    console.error('Erro ao carregar dados:', e);
+    showLoading(false);
+  });
+}
+
+function openDatePicker() {
+  var startDate = prompt('Data inicio (dd/mm/yyyy):');
+  if (!startDate) return;
+  var endDate = prompt('Data fim (dd/mm/yyyy):');
+  if (!endDate) return;
+  document.getElementById('dateRangeLabel').textContent = startDate.slice(0,5) + ' - ' + endDate.slice(0,5);
+  window.currentPeriod = 'custom';
+  window.customStartDate = parseDate(startDate);
+  window.customEndDate = parseDate(endDate);
+  showLoading(true);
+  loadDashboardData('custom').then(function() {
+    updateDashboard();
+    showLoading(false);
+  }).catch(function(e) {
+    console.error('Erro ao carregar dados customizados:', e);
+    showLoading(false);
+  });
+}
+
+window.currentPeriod = 'mes';
+var dashboardAppts = { h: {}, b: {} };
+
 var chartsInit = false;
 function goTo(screen) {
   document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
@@ -754,13 +788,85 @@ function goTo(screen) {
   document.getElementById('screen-' + screen).classList.add('active');
   document.getElementById('tab-' + screen).classList.add('active');
   window.scrollTo(0,0);
-  if (screen === 'dashboard') { updateDashboard(); }
+  if (screen === 'dashboard') { 
+    showLoading(true);
+    loadDashboardData(window.currentPeriod).then(function() {
+      updateDashboard();
+      showLoading(false);
+    }).catch(function(e) {
+      console.error('Erro ao carregar dashboard:', e);
+      showLoading(false);
+    });
+  }
 }
 
+async function loadDashboardData(period) {
+  dashboardAppts = { h: {}, b: {} };
+  var dates = [];
+  var today = new Date(currentDate);
+  
+  if (period === 'hoje') {
+    dates.push(new Date(today));
+  } else if (period === 'semana') {
+    var start = new Date(today);
+    start.setDate(start.getDate() - start.getDay());
+    for (var i = 0; i < 7; i++) {
+      dates.push(new Date(start));
+      start.setDate(start.getDate() + 1);
+    }
+  } else if (period === 'mes') {
+    var start = new Date(today.getFullYear(), today.getMonth(), 1);
+    var end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    for (var d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      dates.push(new Date(d));
+    }
+  } else if (period === 'ano') {
+    var start = new Date(today.getFullYear(), 0, 1);
+    var end = new Date(today.getFullYear(), 11, 31);
+    for (var d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      dates.push(new Date(d));
+    }
+  } else if (period === 'custom') {
+    var start = window.customStartDate || today;
+    var end = window.customEndDate || today;
+    for (var d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+      dates.push(new Date(d));
+    }
+  }
+  
+  for (var i = 0; i < dates.length; i++) {
+    await loadDashboardDateData(dates[i]);
+  }
+}
+
+async function loadDashboardDateData(date) {
+  var iso = toISO(date);
+  var barbers = ['h', 'b'];
+  for (var bi = 0; bi < barbers.length; bi++) {
+    var b = barbers[bi];
+    var snap = await db.collection('agendamentos').doc(iso).collection(b).get();
+    snap.forEach(function(doc) {
+      var d = doc.data();
+      dashboardAppts[b][iso + '_' + doc.id] = {
+        id: doc.id,
+        name: d.nome,
+        svc: d.servico,
+        price: d.preco,
+        tipo: d.tipo,
+        slots: d.slots,
+        pagamento: d.pagamento,
+        obs: d.obs || ''
+      };
+    });
+  }
+}
+
+var chartsInit = false;
+
 function updateDashboard() {
-  // Collect all appointments from all loaded days (for now use current day)
-  var allH = Object.values(appts.h);
-  var allB = Object.values(appts.b);
+  // Collect all appointments from dashboard data (aggregated from multiple days)
+  var allH = Object.values(dashboardAppts.h);
+  var allB = Object.values(dashboardAppts.b);
   var all  = allH.concat(allB);
 
   // KPIs
@@ -815,37 +921,19 @@ function updateDashboard() {
   });
   var totalPgto = all.length || 1;
 
-  // Update pgto bars with qty
-  var pgtoKeys = ['pix','credito','dinheiro','debito'];
-  pgtoKeys.forEach(function(key, i) {
-    var qty = pgtoCount[key];
-    var pct = Math.round(qty/totalPgto*100);
-    var pctEl  = document.getElementById('pgto-pct-' + i);
-    var qtyEl  = document.getElementById('pgto-qty-' + i);
-    var barEl  = document.getElementById('pgto-bar-' + i);
-    if (pctEl) pctEl.textContent = pct + '%';
-    if (qtyEl) qtyEl.textContent = qty > 0 ? qty + 'x ·' : '';
-    if (barEl) barEl.style.width = pct + '%';
-  });
-
-  // Update produtos vendidos with qty
-  var prodKeys = ['Pomada','Balm','Oleo','Leave-In'];
-  var prodCount = { 'Pomada':0, 'Balm':0, 'Oleo':0, 'Leave-In':0 };
-  all.forEach(function(a) {
-    Object.keys(prodCount).forEach(function(k) {
-      if (a.svc && a.svc.indexOf(k) >= 0) prodCount[k]++;
-    });
-  });
-  var totalProd = Object.values(prodCount).reduce(function(s,v){ return s+v; }, 1);
-  prodKeys.forEach(function(key, i) {
-    var qty = prodCount[key];
-    var pct = Math.round(qty/totalProd*100);
-    var pctEl = document.getElementById('prod-pct-' + i);
-    var qtyEl = document.getElementById('prod-qty-' + i);
-    var barEl = document.getElementById('prod-bar-' + i);
-    if (pctEl) pctEl.textContent = pct + '%';
-    if (qtyEl) qtyEl.textContent = qty > 0 ? qty + 'x ·' : '';
-    if (barEl) barEl.style.width = pct + '%';
+  // Update pgto bars
+  var pgtoItems = document.querySelectorAll('#screen-dashboard .pgto-list:first-of-type .pgto-bar-fill');
+  var pgtoValues = [
+    Math.round(pgtoCount.pix/totalPgto*100),
+    Math.round(pgtoCount.credito/totalPgto*100),
+    Math.round(pgtoCount.dinheiro/totalPgto*100),
+    Math.round(pgtoCount.debito/totalPgto*100)
+  ];
+  var pgtoPcts = document.querySelectorAll('#screen-dashboard .chart-card:nth-child(5) .pgto-pct');
+  var pgtoBars = document.querySelectorAll('#screen-dashboard .chart-card:nth-child(5) .pgto-bar-fill');
+  pgtoValues.forEach(function(v,i) {
+    if (pgtoPcts[i]) pgtoPcts[i].textContent = v + '%';
+    if (pgtoBars[i]) pgtoBars[i].style.width = v + '%';
   });
 
   // Charts
@@ -860,15 +948,12 @@ function updateDashboard() {
     }
   }
 
-  // Update pie legend pcts + qty
+  // Update pie legend pcts
+  var piePcts = document.querySelectorAll('.pie-pct');
   var pieKeys = ['Corte','Barba','Pezinho','Sobrancelha'];
   pieKeys.forEach(function(k,i) {
-    var qty = svcCount[k];
-    var pct = Math.round(qty/totalSvc*100);
-    var pctEl = document.getElementById('svc-pct-' + i);
-    var qtyEl = document.getElementById('svc-qty-' + i);
-    if (pctEl) pctEl.textContent = pct + '%';
-    if (qtyEl) qtyEl.textContent = qty > 0 ? qty + 'x ·' : '';
+    var pct = Math.round(svcCount[k]/totalSvc*100);
+    if (piePcts[i]) piePcts[i].textContent = pct + '%';
   });
 }
 
@@ -960,6 +1045,15 @@ function toISO(d) {
   var m = String(d.getMonth()+1).padStart(2,'0');
   var day = String(d.getDate()).padStart(2,'0');
   return y + '-' + m + '-' + day;
+}
+
+function parseDate(str) {
+  // Converte dd/mm/yyyy em Date
+  var parts = str.split('/');
+  if (parts.length === 3) {
+    return new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
+  }
+  return new Date();
 }
 
 function showLoading(on) {
