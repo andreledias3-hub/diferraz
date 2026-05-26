@@ -194,7 +194,7 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
   </div>
   <div class="date-strip">
     <button class="date-arrow" onclick="changeDay(-1)">&#8249;</button>
-    <div class="date-center"><div class="date-main" id="dateMain">Sabado, 24 de maio</div><div class="date-sub" id="dateSub">2025</div></div>
+    <div class="date-center"><div class="date-main" id="dateMain"></div><div class="date-sub" id="dateSub"></div></div>
     <button class="date-arrow" onclick="changeDay(1)">&#8250;</button>
   </div>
   <div class="barber-tabs">
@@ -1063,6 +1063,8 @@ function showLoading(on) {
 }
 
 // ── INIT ─────────────────────────────────────────────────
+document.getElementById('dateMain').textContent = formatDateMain(currentDate);
+document.getElementById('dateSub').textContent = formatDateSub(currentDate);
 dbLoad(currentDate);
 </script>
 </body>
