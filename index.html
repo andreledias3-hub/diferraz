@@ -558,14 +558,13 @@ function renderAgenda() {
           '<div class="appt-card" style="height:' + cardH + 'px" onclick="openModal(\'' + b + '\',' + i + ')">' +
             '<div class="appt-accent ' + color + '"></div>' +
             '<div class="appt-body ' + color + '-bg">' +
-              '<div>' +
-                '<div class="appt-name">' + a.name + '</div>' +
-                '<div class="appt-svc">' + a.svc + '</div>' +
-              '</div>' +
-              '<div class="appt-bottom">' +
-                '<span class="appt-badge badge-' + a.tipo + '">' + tipoCap + '</span>' +
-                '<span class="appt-price">R$ ' + a.price + '</span>' +
-              '</div>' +
+              '<div style="display:flex;align-items:center;justify-content:space-between;gap:4px">' +
+              '<div class="appt-name" style="flex:1">' + a.name + '</div>' +
+            '<span class="appt-badge badge-' + a.tipo + '" style="flex-shrink:0">' + tipoCap + '</span>' +
+          '<span class="appt-price" style="flex-shrink:0">R$ ' + a.price + '</span>' +
+  '</div>' +
+  '<div class="appt-svc">' + a.svc + '</div>' +
+'</div>'
             '</div>' +
           '</div>';
       } else if ((b === 'h' && occH[i] !== undefined) || (b === 'b' && occB[i] !== undefined)) {
