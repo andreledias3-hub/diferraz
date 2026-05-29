@@ -924,50 +924,58 @@ function updateDashboard() {
 
   // Update pgto bars - find the "Meios de pagamento" chart card
   var allChartCards = document.querySelectorAll('#screen-dashboard .chart-card');
-  var pgtoChartCard = null;
   for (var ci = 0; ci < allChartCards.length; ci++) {
     var title = allChartCards[ci].querySelector('.chart-title');
     if (title && title.textContent.indexOf('pagamento') >= 0) {
-      pgtoChartCard = allChartCards[ci];
+      var pgtoItems = allChartCards[ci].querySelectorAll('.pgto-item');
+      pgtoItems.forEach(function(item) {
+        var label = item.querySelector('.pgto-label');
+        var pct = item.querySelector('.pgto-pct');
+        var barFill = item.parentElement.querySelector('.pgto-bar-fill');
+        if (label && pct && barFill) {
+          var labelText = label.textContent.toLowerCase();
+          var count = pgtoCount[labelText] || 0;
+          var percentage = Math.round(count/totalPgto*100);
+          pct.textContent = percentage + '%';
+          barFill.style.width = percentage + '%';
+        }
+      });
       break;
     }
   }
-  if (pgtoChartCard) {
-    var pgtoPcts = pgtoChartCard.querySelectorAll('.pgto-pct');
-    var pgtoBars = pgtoChartCard.querySelectorAll('.pgto-bar-fill');
-    var pgtoOrder = ['pix', 'credito', 'dinheiro', 'debito'];
-    pgtoOrder.forEach(function(method, i) {
-      var pct = Math.round(pgtoCount[method]/totalPgto*100);
-      if (pgtoPcts[i]) pgtoPcts[i].textContent = pct + '%';
-      if (pgtoBars[i]) pgtoBars[i].style.width = pct + '%';
-    });
-  }
+
+  // Count products
+  var prodCount = { pomada:0, balm:0, oleo:0, 'leave-in':0 };
+  all.forEach(function(a) {
+    if (a.svc) {
+      var svcLower = a.svc.toLowerCase();
+      if (svcLower.indexOf('pomada') >= 0) prodCount.pomada++;
+      if (svcLower.indexOf('balm') >= 0) prodCount.balm++;
+      if (svcLower.indexOf('oleo') >= 0) prodCount.oleo++;
+      if (svcLower.indexOf('leave-in') >= 0) prodCount['leave-in']++;
+    }
+  });
+  var totalProd = Object.values(prodCount).reduce(function(s,v){ return s+v; },1);
 
   // Update produtos bars - find the "Produtos vendidos" chart card
-  var produtoChartCard = null;
   for (var ci = 0; ci < allChartCards.length; ci++) {
     var title = allChartCards[ci].querySelector('.chart-title');
     if (title && title.textContent.indexOf('Produtos') >= 0) {
-      produtoChartCard = allChartCards[ci];
+      var prodItems = allChartCards[ci].querySelectorAll('.pgto-item');
+      prodItems.forEach(function(item) {
+        var label = item.querySelector('.pgto-label');
+        var pct = item.querySelector('.pgto-pct');
+        var barFill = item.parentElement.querySelector('.pgto-bar-fill');
+        if (label && pct && barFill) {
+          var labelText = label.textContent.toLowerCase();
+          var count = prodCount[labelText] || 0;
+          var percentage = Math.round(count/totalProd*100);
+          pct.textContent = percentage + '%';
+          barFill.style.width = percentage + '%';
+        }
+      });
       break;
     }
-  }
-  if (produtoChartCard) {
-    var prodCount = { Pomada:0, Balm:0, Oleo:0, 'Leave-In':0 };
-    all.forEach(function(a) {
-      Object.keys(prodCount).forEach(function(k) {
-        if (a.svc && a.svc.indexOf(k) >= 0) prodCount[k]++;
-      });
-    });
-    var totalProd = Object.values(prodCount).reduce(function(s,v){ return s+v; },1);
-    var prodPcts = produtoChartCard.querySelectorAll('.pgto-pct');
-    var prodBars = produtoChartCard.querySelectorAll('.pgto-bar-fill');
-    var prodOrder = ['Pomada', 'Balm', 'Oleo', 'Leave-In'];
-    prodOrder.forEach(function(prod, i) {
-      var pct = Math.round(prodCount[prod]/totalProd*100);
-      if (prodPcts[i]) prodPcts[i].textContent = pct + '%';
-      if (prodBars[i]) prodBars[i].style.width = pct + '%';
-    });
   }
 
   // Charts
@@ -983,21 +991,20 @@ function updateDashboard() {
   }
 
   // Update pie legend pcts - find the "Mix de servicos" chart card
-  var mixChartCard = null;
   for (var ci = 0; ci < allChartCards.length; ci++) {
     var title = allChartCards[ci].querySelector('.chart-title');
     if (title && title.textContent.indexOf('servicos') >= 0) {
-      mixChartCard = allChartCards[ci];
+      var pieItems = allChartCards[ci].querySelectorAll('.pie-item');
+      var pieKeys = ['Corte','Barba','Pezinho','Sobrancelha'];
+      pieItems.forEach(function(item, i) {
+        var piePct = item.querySelector('.pie-pct');
+        if (piePct && pieKeys[i]) {
+          var pct = Math.round(svcCount[pieKeys[i]]/totalSvc*100);
+          piePct.textContent = pct + '%';
+        }
+      });
       break;
     }
-  }
-  if (mixChartCard) {
-    var piePcts = mixChartCard.querySelectorAll('.pie-pct');
-    var pieKeys = ['Corte','Barba','Pezinho','Sobrancelha'];
-    pieKeys.forEach(function(k,i) {
-      var pct = Math.round(svcCount[k]/totalSvc*100);
-      if (piePcts[i]) piePcts[i].textContent = pct + '%';
-    });
   }
 }
 
