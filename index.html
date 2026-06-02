@@ -263,10 +263,10 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
     <div class="chart-card">
       <div class="chart-header"><div><div class="chart-title">Meios de pagamento</div><div class="chart-sub">Preferencia dos clientes</div></div></div>
       <div class="pgto-list">
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--green)"></div><span class="pgto-label">Pix</span><span class="pgto-pct"><span class="pgto-count">52</span> / 52%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:52%;background:var(--green)"></div></div></div>
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--blue)"></div><span class="pgto-label">Credito</span><span class="pgto-pct"><span class="pgto-count">24</span> / 24%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:24%;background:var(--blue)"></div></div></div>
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--gold)"></div><span class="pgto-label">Dinheiro</span><span class="pgto-pct"><span class="pgto-count">16</span> / 16%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:16%;background:var(--gold)"></div></div></div>
-        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--red)"></div><span class="pgto-label">Debito</span><span class="pgto-pct"><span class="pgto-count">8</span> / 8%</span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:8%;background:var(--red)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--green)"></div><span class="pgto-label">Pix</span><span class="pgto-pct"><span class="pgto-value">R$ 0</span> / <span class="pgto-percent">0%</span></span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:52%;background:var(--green)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--blue)"></div><span class="pgto-label">Credito</span><span class="pgto-pct"><span class="pgto-value">R$ 0</span> / <span class="pgto-percent">0%</span></span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:24%;background:var(--blue)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--gold)"></div><span class="pgto-label">Dinheiro</span><span class="pgto-pct"><span class="pgto-value">R$ 0</span> / <span class="pgto-percent">0%</span></span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:16%;background:var(--gold)"></div></div></div>
+        <div><div class="pgto-item"><div class="pgto-dot" style="background:var(--red)"></div><span class="pgto-label">Debito</span><span class="pgto-pct"><span class="pgto-value">R$ 0</span> / <span class="pgto-percent">0%</span></span></div><div class="pgto-bar"><div class="pgto-bar-fill" style="width:8%;background:var(--red)"></div></div></div>
       </div>
     </div>
     <div class="chart-card">
@@ -906,11 +906,15 @@ function updateDashboard() {
 
   // Payment methods
   var pgtoCount = { pix:0, credito:0, dinheiro:0, debito:0 };
+  var pgtoTotal = { pix:0, credito:0, dinheiro:0, debito:0 };
   all.forEach(function(a) {
     var p = (a.pagamento||'pix').toLowerCase();
-    if (pgtoCount[p] !== undefined) pgtoCount[p]++;
+    if (pgtoCount[p] !== undefined) {
+      pgtoCount[p]++;
+      pgtoTotal[p] += a.price;
+    }
   });
-  var totalPgto = all.length || 1;
+  var totalFatPgto = all.reduce(function(s,a){ return s+a.price; }, 0) || 1;
 
   // Update pgto bars - find the "Meios de pagamento" chart card
   var allChartCards = document.querySelectorAll('#screen-dashboard .chart-card');
@@ -920,15 +924,15 @@ function updateDashboard() {
       var pgtoItems = allChartCards[ci].querySelectorAll('.pgto-item');
       pgtoItems.forEach(function(item) {
         var label = item.querySelector('.pgto-label');
-        var pct = item.querySelector('.pgto-pct');
-        var count = item.querySelector('.pgto-count');
+        var valueSpan = item.querySelector('.pgto-value');
+        var percentSpan = item.querySelector('.pgto-percent');
         var barFill = item.parentElement.querySelector('.pgto-bar-fill');
-        if (label && pct && barFill) {
+        if (label && valueSpan && percentSpan && barFill) {
           var labelText = label.textContent.toLowerCase();
-          var countVal = pgtoCount[labelText] || 0;
-          var percentage = Math.round(countVal/totalPgto*100);
-          if (count) count.textContent = countVal;
-          pct.textContent = countVal + ' / ' + percentage + '%';
+          var fatVal = pgtoTotal[labelText] || 0;
+          var percentage = Math.round(fatVal/totalFatPgto*100);
+          valueSpan.textContent = 'R$ ' + fatVal;
+          percentSpan.textContent = percentage + '%';
           barFill.style.width = percentage + '%';
         }
       });
