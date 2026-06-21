@@ -333,6 +333,13 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
         </div>
       </div>
       <div>
+        <div class="field-label">Clientes mensais</div>
+        <div class="radio-group" id="rgMensal">
+          <div class="radio-chip" onclick="selChip(this,'mensal')">R$ 150</div>
+          <div class="radio-chip" onclick="selChip(this,'mensal')">R$ 300</div>
+        </div>
+      </div>
+      <div>
         <div class="field-label">Tipo de cliente</div>
         <div class="radio-group" id="rgTipo">
           <div class="radio-chip sel" onclick="selChip(this,'tipo')">Novo</div>
@@ -439,6 +446,7 @@ async function dbLoad(date) {
         tipo: d.tipo,
         slots: d.slots,
         pagamento: d.pagamento,
+        mensal: d.mensal || '',
         obs: d.obs || ''
       };
     });
@@ -659,6 +667,18 @@ function openModal(barber, slotIndex) {
     c.classList.toggle('sel', (i===0 && t==='novo') || (i===1 && t==='fixo'));
   });
   
+  // Restore mensal if editing
+  document.querySelectorAll('#rgMensal .radio-chip').forEach(function(c){
+    c.classList.remove('sel');
+  });
+  if (existing && existing.mensal) {
+    document.querySelectorAll('#rgMensal .radio-chip').forEach(function(c){
+      if (c.textContent === existing.mensal) {
+        c.classList.add('sel');
+      }
+    });
+  }
+  
   // Restore payment method correctly
   var pgto = existing ? existing.pagamento : 'pix';
   document.querySelectorAll('#rgPgto .radio-chip').forEach(function(c){
@@ -725,6 +745,8 @@ async function saveAppt() {
   var tipo = tipoChip ? tipoChip.textContent.toLowerCase() : 'novo';
   var pgtoChip = document.querySelector('#rgPgto .radio-chip.sel');
   var pgto = pgtoChip ? pgtoChip.textContent.toLowerCase() : 'pix';
+  var mensalChip = document.querySelector('#rgMensal .radio-chip.sel');
+  var mensal = mensalChip ? mensalChip.textContent : '';
   var svcs = [];
   document.querySelectorAll('.svc-item.sel .svc-name').forEach(function(el){ svcs.push(el.textContent); });
   var svc = svcs.length ? svcs.join(' + ') : 'Servico';
@@ -740,13 +762,13 @@ async function saveAppt() {
       var obs = document.getElementById('inputObs').value.trim();
       await dbUpdate(currentDate, editingBarber, editingSlot, {
         nome: nome, servico: svc, preco: price,
-        slots: durSlots, tipo: tipo, pagamento: pgto, obs: obs
+        slots: durSlots, tipo: tipo, pagamento: pgto, mensal: mensal, obs: obs
       });
     } else {
       // INSERT new
       var obs = document.getElementById('inputObs').value.trim();
       await dbSave(currentDate, barber, slotIdx, {
-        nome: nome, servico: svc, preco: price, slots: durSlots, tipo: tipo, pagamento: pgto, obs: obs
+        nome: nome, servico: svc, preco: price, slots: durSlots, tipo: tipo, pagamento: pgto, mensal: mensal, obs: obs
       });
     }
     await dbLoad(currentDate);
@@ -868,6 +890,7 @@ async function loadDashboardDateData(date) {
         tipo: d.tipo,
         slots: d.slots,
         pagamento: d.pagamento,
+        mensal: d.mensal || '',
         obs: d.obs || ''
       };
     });
