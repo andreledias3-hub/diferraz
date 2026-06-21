@@ -335,8 +335,8 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
       <div>
         <div class="field-label">Clientes mensais</div>
         <div class="radio-group" id="rgMensal">
-          <div class="radio-chip" onclick="selChip(this,'mensal')">R$ 150</div>
-          <div class="radio-chip" onclick="selChip(this,'mensal')">R$ 300</div>
+          <div class="radio-chip" onclick="selMensalAndTotal(this, 150)">R$ 150</div>
+          <div class="radio-chip" onclick="selMensalAndTotal(this, 300)">R$ 300</div>
         </div>
       </div>
       <div>
@@ -733,6 +733,12 @@ function selChip(el, group) {
   if (el.textContent === 'Henrique') el.classList.add('h-sel');
   else if (el.textContent === 'Betho') el.classList.add('b-sel');
   else el.classList.add('sel');
+}
+
+function selMensalAndTotal(el, valor) {
+  selChip(el, 'mensal');
+  modalTotal = valor;
+  document.getElementById('totalField').value = 'R$ ' + valor;
 }
 
 async function saveAppt() {
