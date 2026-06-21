@@ -622,10 +622,26 @@ function openModal(barber, slotIndex) {
 
   // Reset form
   document.getElementById('inputNome').value = existing ? existing.name : '';
+  
+  // Reset all services/products
   document.querySelectorAll('.svc-item').forEach(function(el) {
     el.classList.remove('sel');
     el.querySelector('.svc-check').textContent = '';
   });
+  
+  // Restore selected services if editing
+  if (existing && existing.svc) {
+    var selectedServices = existing.svc.split(' + ');
+    document.querySelectorAll('.svc-item').forEach(function(el) {
+      var serviceName = el.querySelector('.svc-name').textContent.trim();
+      if (selectedServices.indexOf(serviceName) >= 0) {
+        el.classList.add('sel');
+        el.querySelector('.svc-check').textContent = 'v';
+        // Note: modalTotal will be set correctly from totalField below
+      }
+    });
+  }
+  
   document.getElementById('totalField').value = existing ? 'R$ ' + existing.price : 'R$ 0';
   document.getElementById('inputObs').value = existing && existing.obs ? existing.obs : '';
   modalTotal = existing ? existing.price : 0;
@@ -642,7 +658,13 @@ function openModal(barber, slotIndex) {
     var t = existing ? existing.tipo : 'novo';
     c.classList.toggle('sel', (i===0 && t==='novo') || (i===1 && t==='fixo'));
   });
-  document.querySelectorAll('#rgPgto .radio-chip').forEach(function(c,i){ c.classList.toggle('sel', i===1); });
+  
+  // Restore payment method correctly
+  var pgto = existing ? existing.pagamento : 'pix';
+  document.querySelectorAll('#rgPgto .radio-chip').forEach(function(c){
+    var pgtoLabel = c.textContent.toLowerCase();
+    c.classList.toggle('sel', pgtoLabel === pgto);
+  });
 
   buildHorarioSelect(slot);
   var dm = formatDateMain(currentDate).replace('Sabado','Sab').replace('Segunda','Seg').replace('Terca','Ter').replace('Quarta','Qua').replace('Quinta','Qui').replace('Sexta','Sex').replace('Domingo','Dom');
