@@ -44,6 +44,7 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 .barber-tab.all.active{background:var(--gold-dim);color:var(--gold);border-color:var(--gold)}
 .barber-tab.h.active{background:rgba(106,159,216,.15);color:var(--blue);border-color:rgba(106,159,216,.5)}
 .barber-tab.b.active{background:rgba(224,112,96,.15);color:var(--red);border-color:rgba(224,112,96,.4)}
+.barber-tab.x.active{background:rgba(201,168,76,.15);color:var(--gold);border-color:rgba(201,168,76,.4)}
 
 /* SUMMARY */
 .summary{display:flex;border-bottom:1px solid var(--border)}
@@ -106,6 +107,7 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 .radio-chip.sel{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
 .radio-chip.h-sel{border-color:var(--blue);color:var(--blue);background:rgba(106,159,216,.1)}
 .radio-chip.b-sel{border-color:var(--red);color:var(--red);background:rgba(224,112,96,.1)}
+.radio-chip.x-sel{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.12)}
 .time-picker-row{display:flex;gap:8px}
 .time-select{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;outline:none;appearance:none;-webkit-appearance:none;cursor:pointer}
 .time-select:focus{border-color:var(--gold)}
@@ -201,6 +203,7 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
     <div class="barber-tab all active" onclick="setFilter('all',this)">Todos</div>
     <div class="barber-tab h" onclick="setFilter('h',this)">Henrique</div>
     <div class="barber-tab b" onclick="setFilter('b',this)">Betho</div>
+    <div class="barber-tab x" onclick="setFilter('x',this)">Xitão</div>
   </div>
   <div class="summary">
     <div class="sum-item"><div class="sum-label">Faturamento</div><div class="sum-value" id="sumFat">R$ 0</div></div>
@@ -212,6 +215,7 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
       <div class="ah-time"></div>
       <div class="ah-barber" id="col-hdr-h"><div class="ah-dot" style="background:var(--blue)"></div><span class="ah-name">Henrique</span><span class="ah-count" id="cnt-h">0 atend.</span></div>
       <div class="ah-barber" id="col-hdr-b"><div class="ah-dot" style="background:var(--red)"></div><span class="ah-name">Betho</span><span class="ah-count" id="cnt-b">0 atend.</span></div>
+      <div class="ah-barber" id="col-hdr-x"><div class="ah-dot" style="background:var(--gold)"></div><span class="ah-name">Xitão</span><span class="ah-count" id="cnt-x">0 atend.</span></div>
     </div>
     <div class="agenda-body" id="agendaBody"></div>
   </div>
@@ -236,18 +240,24 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
       <div class="kpi-card red"><div class="kpi-label">Novos / Fixos</div><div class="kpi-value" style="font-size:20px">38 <span style="color:var(--muted);font-size:14px">/ 76</span></div><div class="kpi-sub">33% novos - 67% fixos</div></div>
     </div>
     <div class="section-title">Performance por barbeiro</div>
-    <div class="barber-row">
-      <div class="barber-card">
+    <div class="barber-row" style="grid-template-columns:1fr 1fr 1fr;">
+      <div class="barber-card" data-barber="h">
         <div class="barber-card-header"><div class="barber-dot" style="background:var(--blue)"></div><span class="barber-card-name">Henrique</span></div>
         <div class="barber-stat"><div class="barber-stat-label">Faturamento</div><div class="barber-stat-val gold">R$ 4.920</div></div>
         <div class="barber-stat"><div class="barber-stat-label">Atendimentos</div><div class="barber-stat-val neutral">67</div></div>
         <div class="bar-track"><div class="bar-fill" style="width:59%;background:var(--blue)"></div></div>
       </div>
-      <div class="barber-card">
+      <div class="barber-card" data-barber="b">
         <div class="barber-card-header"><div class="barber-dot" style="background:var(--red)"></div><span class="barber-card-name">Betho</span></div>
         <div class="barber-stat"><div class="barber-stat-label">Faturamento</div><div class="barber-stat-val gold">R$ 3.420</div></div>
         <div class="barber-stat"><div class="barber-stat-label">Atendimentos</div><div class="barber-stat-val neutral">47</div></div>
         <div class="bar-track"><div class="bar-fill" style="width:41%;background:var(--red)"></div></div>
+      </div>
+      <div class="barber-card" data-barber="x">
+        <div class="barber-card-header"><div class="barber-dot" style="background:var(--gold)"></div><span class="barber-card-name">Xitão</span></div>
+        <div class="barber-stat"><div class="barber-stat-label">Faturamento</div><div class="barber-stat-val gold">R$ 0</div></div>
+        <div class="barber-stat"><div class="barber-stat-label">Atendimentos</div><div class="barber-stat-val neutral">0</div></div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--gold)"></div></div>
       </div>
     </div>
     <div class="chart-card">
