@@ -308,8 +308,9 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
       <div>
         <div class="field-label">Barbeiro responsavel</div>
         <div class="radio-group" id="rgBarber">
-          <div class="radio-chip h-sel" onclick="selChip(this,'barber')">Henrique</div>
-          <div class="radio-chip" onclick="selChip(this,'barber')">Betho</div>
+          <div class="radio-chip h-sel" data-barber="h" onclick="selChip(this,'barber')">Henrique</div>
+          <div class="radio-chip" data-barber="b" onclick="selChip(this,'barber')">Betho</div>
+          <div class="radio-chip" data-barber="x" onclick="selChip(this,'barber')">Xitão</div>
         </div>
       </div>
       <div>
@@ -611,6 +612,7 @@ function updateSummary() {
 }
 
 var modalBarber = 'h', modalTotal = 0, editingBarber = null, editingSlot = null;
+var selectedBarberKey = 'h';
 
 function buildHorarioSelect(preselect) {
   var sel = document.getElementById('selHorario');
@@ -669,9 +671,9 @@ function openModal(barber, slotIndex) {
 
   document.querySelectorAll('#rgBarber .radio-chip').forEach(function(c){ c.classList.remove('sel','h-sel','b-sel','x-sel'); });
   var barberKey = existing ? barber : modalBarber;
-  var chips = document.querySelectorAll('#rgBarber .radio-chip');
-  var chipByKey = { h: chips[0], b: chips[1], x: chips[2] };
-  if (chipByKey[barberKey]) chipByKey[barberKey].classList.add(barberKey + '-sel');
+  selectedBarberKey = barberKey || 'h';
+  var selectedChip = document.querySelector('#rgBarber .radio-chip[data-barber="' + barberKey + '"]');
+  if (selectedChip) selectedChip.classList.add(barberKey + '-sel');
 
   document.querySelectorAll('#rgTipo .radio-chip').forEach(function(c,i){
     var t = existing ? existing.tipo : 'novo';
@@ -741,6 +743,14 @@ function selChip(el, group) {
   el.closest('.radio-group').querySelectorAll('.radio-chip').forEach(function(c){
     c.classList.remove('sel','h-sel','b-sel','x-sel');
   });
+
+  if (group === 'barber') {
+    var barberKey = el.getAttribute('data-barber') || 'h';
+    selectedBarberKey = barberKey;
+    el.classList.add(barberKey + '-sel');
+    return;
+  }
+
   if (el.textContent === 'Henrique') el.classList.add('h-sel');
   else if (el.textContent === 'Betho') el.classList.add('b-sel');
   else if (el.textContent === 'Xitão') el.classList.add('x-sel');
@@ -757,10 +767,8 @@ async function saveAppt() {
   var nome = document.getElementById('inputNome').value.trim() || 'Cliente';
   var slotIdx = parseInt(document.getElementById('selHorario').value);
   var durSlots = parseInt(document.getElementById('selDuracao').value);
-  var barberChip = document.querySelector('#rgBarber .radio-chip.h-sel, #rgBarber .radio-chip.b-sel, #rgBarber .radio-chip.x-sel');
-  var barber = 'h';
-  if (barberChip && barberChip.classList.contains('b-sel')) barber = 'b';
-  if (barberChip && barberChip.classList.contains('x-sel')) barber = 'x';
+  var barber = selectedBarberKey || 'h';
+  if (!['h','b','x'].includes(barber)) barber = 'h';
   var tipoChip = document.querySelector('#rgTipo .radio-chip.sel');
   var tipo = tipoChip ? tipoChip.textContent.toLowerCase() : 'novo';
   var pgtoChip = document.querySelector('#rgPgto .radio-chip.sel');
