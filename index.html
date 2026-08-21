@@ -518,6 +518,11 @@ var appts = {
     3:  { name:'Marcos Oliveira',svc:'Corte + Sobrancelha',      price:60,  tipo:'novo', slots:1 },
     7:  { name:'Caio Lima',      svc:'Corte + Barba + Pezinho',  price:120, tipo:'fixo', slots:3 },
     16: { name:'Felipe Costa',   svc:'Corte',                    price:50,  tipo:'novo', slots:1 }
+  },
+  x: {
+    5:  { name:'Cliente Xitão 1', svc:'Corte + Pomada',          price:90,  tipo:'novo', slots:2 },
+    9:  { name:'Cliente Xitão 2', svc:'Barba + Sobrancelha',     price:70,  tipo:'fixo', slots:2 },
+    15: { name:'Cliente Xitão 3', svc:'Corte',                   price:50,  tipo:'novo', slots:1 }
   }
 };
 
@@ -945,7 +950,8 @@ function updateDashboard() {
 
   var fatH = allH.reduce(function(s,a){ return s+a.price; },0);
   var fatB = allB.reduce(function(s,a){ return s+a.price; },0);
-  var totalFat = fatH + fatB || 1;
+  var fatX = allX.reduce(function(s,a){ return s+a.price; },0);
+  var totalFat = fatH + fatB + fatX || 1;
 
   document.querySelector('.kpi-card.gold .kpi-value').textContent = 'R$ ' + fat;
   document.querySelector('.kpi-card.blue .kpi-value').textContent = atd;
@@ -957,17 +963,47 @@ function updateDashboard() {
 
   // Barber performance bars
   var pctH = Math.round(fatH/totalFat*100);
-  var pctBt = 100 - pctH;
-  var barH = document.querySelector('.bar-fill[style*="blue"]');
-  var barBt = document.querySelector('.bar-fill[style*="red"]');
-  if (barH) barH.style.width = pctH + '%';
-  if (barBt) barBt.style.width = pctBt + '%';
+  var pctB = Math.round(fatB/totalFat*100);
+  var pctX = Math.round(fatX/totalFat*100);
 
-  var statVals = document.querySelectorAll('.barber-stat-val');
-  if (statVals[0]) statVals[0].textContent = 'R$ ' + fatH;
-  if (statVals[1]) statVals[1].textContent = allH.length;
-  if (statVals[2]) statVals[2].textContent = 'R$ ' + fatB;
-  if (statVals[3]) statVals[3].textContent = allB.length;
+  var hCard = document.querySelector('.barber-card[data-barber="h"]');
+  var bCard = document.querySelector('.barber-card[data-barber="b"]');
+  var xCard = document.querySelector('.barber-card[data-barber="x"]');
+
+  if (hCard) {
+    var hFill = hCard.querySelector('.bar-fill');
+    if (hFill) hFill.style.width = pctH + '%';
+    var hStats = hCard.querySelectorAll('.barber-stat-val');
+    if (hStats[0]) hStats[0].textContent = 'R$ ' + fatH;
+    if (hStats[1]) hStats[1].textContent = allH.length;
+  }
+
+  if (bCard) {
+    var bFill = bCard.querySelector('.bar-fill');
+    if (bFill) bFill.style.width = pctB + '%';
+    var bStats = bCard.querySelectorAll('.barber-stat-val');
+    if (bStats[0]) bStats[0].textContent = 'R$ ' + fatB;
+    if (bStats[1]) bStats[1].textContent = allB.length;
+  }
+
+  if (xCard) {
+    var xFill = xCard.querySelector('.bar-fill');
+    if (xFill) xFill.style.width = pctX + '%';
+    var xStats = xCard.querySelectorAll('.barber-stat-val');
+    if (xStats[0]) xStats[0].textContent = 'R$ ' + fatX;
+    if (xStats[1]) xStats[1].textContent = allX.length;
+  }
+
+  document.querySelectorAll('.barber-card[data-barber]').forEach(function(card){
+    var key = card.getAttribute('data-barber');
+    if (key === 'h') {
+      card.querySelector('.bar-fill').style.width = pctH + '%';
+    } else if (key === 'b') {
+      card.querySelector('.bar-fill').style.width = pctB + '%';
+    } else if (key === 'x') {
+      card.querySelector('.bar-fill').style.width = pctX + '%';
+    }
+  });
 
   // Count services
   var svcCount = { Corte:0, Barba:0, Pezinho:0, Sobrancelha:0 };
