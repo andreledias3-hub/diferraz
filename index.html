@@ -55,7 +55,7 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
 .sum-value.n{color:var(--text)}
 
 /* AGENDA GRID */
-.agenda-header{display:grid;grid-template-columns:48px 1fr 1fr;border-bottom:2px solid var(--border);background:var(--dark)}
+.agenda-header{display:grid;grid-template-columns:48px 1fr 1fr 1fr;border-bottom:2px solid var(--border);background:var(--dark)}
 .ah-time{padding:10px 0;text-align:center;font-size:11px;color:var(--muted);font-family:'Superstar M54','Righteous',sans-serif}
 .ah-barber{padding:10px 12px;display:flex;align-items:center;gap:8px;border-left:1px solid var(--border)}
 .ah-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
@@ -441,8 +441,8 @@ function docPath(date, barbeiro, slot) {
 
 async function dbLoad(date) {
   var iso = toISO(date);
-  appts = { h: {}, b: {} };
-  var barbers = ['h','b'];
+  appts = { h: {}, b: {}, x: {} };
+  var barbers = ['h','b','x'];
   for (var bi = 0; bi < barbers.length; bi++) {
     var b = barbers[bi];
     var snap = await db.collection('agendamentos').doc(iso).collection(b).get();
@@ -533,26 +533,27 @@ function renderAgenda() {
   var body = document.getElementById('agendaBody');
   body.innerHTML = '';
 
-  // Adjust grid columns based on filter
-  var cols = activeFilter === 'all' ? '48px 1fr 1fr' : '48px 1fr';
+  var cols = activeFilter === 'all' ? '48px 1fr 1fr 1fr' : '48px 1fr';
   document.getElementById('agendaHeader').style.gridTemplateColumns = cols;
-  document.getElementById('col-hdr-h').style.display = (activeFilter === 'b') ? 'none' : '';
-  document.getElementById('col-hdr-b').style.display = (activeFilter === 'h') ? 'none' : '';
+  document.getElementById('col-hdr-h').style.display = (activeFilter === 'b' || activeFilter === 'x') ? 'none' : '';
+  document.getElementById('col-hdr-b').style.display = (activeFilter === 'h' || activeFilter === 'x') ? 'none' : '';
+  document.getElementById('col-hdr-x').style.display = (activeFilter === 'h' || activeFilter === 'b') ? 'none' : '';
 
   var occH = occupiedSlots('h');
   var occB = occupiedSlots('b');
+  var occX = occupiedSlots('x');
 
   for (var i = 0; i < TOTAL_SLOTS; i++) {
     var row = document.createElement('div');
     var isHour = i % 2 === 0;
     row.className = 'time-row' + (isHour ? '' : ' half');
-    row.style.gridTemplateColumns = activeFilter === 'all' ? '48px 1fr 1fr' : '48px 1fr';
+    row.style.gridTemplateColumns = cols;
 
     var lbl = slotLabel(i);
     var timeCls = isHour ? 'tr-time' : 'tr-time dim';
     row.innerHTML = '<div class="' + timeCls + '">' + lbl + '</div>';
 
-    var barbers = activeFilter === 'all' ? ['h','b'] : [activeFilter];
+    var barbers = activeFilter === 'all' ? ['h','b','x'] : [activeFilter];
     for (var bi = 0; bi < barbers.length; bi++) {
       var b = barbers[bi];
       var col = document.createElement('div');
@@ -562,7 +563,7 @@ function renderAgenda() {
         var a = appts[b][i];
         col.classList.add('has-appt');
         var cardH = a.slots * SLOT_H - 6;
-        var color = b === 'h' ? 'blue' : 'red';
+        var color = b === 'h' ? 'blue' : (b === 'b' ? 'red' : 'gold');
         var tipoCap = a.tipo.charAt(0).toUpperCase() + a.tipo.slice(1);
         col.innerHTML =
           '<div class="appt-card" style="height:' + cardH + 'px" onclick="openModal(\'' + b + '\',' + i + ')">' +
@@ -577,7 +578,7 @@ function renderAgenda() {
 '</div>'
             '</div>' +
           '</div>';
-      } else if ((b === 'h' && occH[i] !== undefined) || (b === 'b' && occB[i] !== undefined)) {
+      } else if ((b === 'h' && occH[i] !== undefined) || (b === 'b' && occB[i] !== undefined) || (b === 'x' && occX[i] !== undefined)) {
         col.classList.add('has-appt');
         col.style.visibility = 'hidden';
       } else {
@@ -595,7 +596,7 @@ function renderAgenda() {
 function updateSummary() {
   var list;
   if (activeFilter === 'all') {
-    list = Object.values(appts.h).concat(Object.values(appts.b));
+    list = Object.values(appts.h).concat(Object.values(appts.b), Object.values(appts.x));
   } else {
     list = Object.values(appts[activeFilter]);
   }
@@ -606,6 +607,7 @@ function updateSummary() {
   document.getElementById('sumTkt').textContent = atd ? 'R$ ' + Math.round(fat/atd) : 'R$ 0';
   document.getElementById('cnt-h').textContent = Object.keys(appts.h).length + ' atend.';
   document.getElementById('cnt-b').textContent = Object.keys(appts.b).length + ' atend.';
+  document.getElementById('cnt-x').textContent = Object.keys(appts.x).length + ' atend.';
 }
 
 var modalBarber = 'h', modalTotal = 0, editingBarber = null, editingSlot = null;
@@ -665,12 +667,11 @@ function openModal(barber, slotIndex) {
   modalTotal = existing ? existing.price : 0;
   document.getElementById('selDuracao').value = existing ? String(existing.slots) : '2';
 
-  document.querySelectorAll('#rgBarber .radio-chip').forEach(function(c){ c.classList.remove('sel','h-sel','b-sel'); });
+  document.querySelectorAll('#rgBarber .radio-chip').forEach(function(c){ c.classList.remove('sel','h-sel','b-sel','x-sel'); });
   var barberKey = existing ? barber : modalBarber;
-  var chip = barberKey === 'h'
-    ? document.querySelector('#rgBarber .radio-chip:first-child')
-    : document.querySelector('#rgBarber .radio-chip:last-child');
-  chip.classList.add(barberKey + '-sel');
+  var chips = document.querySelectorAll('#rgBarber .radio-chip');
+  var chipByKey = { h: chips[0], b: chips[1], x: chips[2] };
+  if (chipByKey[barberKey]) chipByKey[barberKey].classList.add(barberKey + '-sel');
 
   document.querySelectorAll('#rgTipo .radio-chip').forEach(function(c,i){
     var t = existing ? existing.tipo : 'novo';
@@ -738,10 +739,11 @@ function toggleSvc(el, val) {
 
 function selChip(el, group) {
   el.closest('.radio-group').querySelectorAll('.radio-chip').forEach(function(c){
-    c.classList.remove('sel','h-sel','b-sel');
+    c.classList.remove('sel','h-sel','b-sel','x-sel');
   });
   if (el.textContent === 'Henrique') el.classList.add('h-sel');
   else if (el.textContent === 'Betho') el.classList.add('b-sel');
+  else if (el.textContent === 'Xitão') el.classList.add('x-sel');
   else el.classList.add('sel');
 }
 
@@ -755,8 +757,10 @@ async function saveAppt() {
   var nome = document.getElementById('inputNome').value.trim() || 'Cliente';
   var slotIdx = parseInt(document.getElementById('selHorario').value);
   var durSlots = parseInt(document.getElementById('selDuracao').value);
-  var barberChip = document.querySelector('#rgBarber .radio-chip.h-sel, #rgBarber .radio-chip.b-sel');
-  var barber = (barberChip && barberChip.classList.contains('b-sel')) ? 'b' : 'h';
+  var barberChip = document.querySelector('#rgBarber .radio-chip.h-sel, #rgBarber .radio-chip.b-sel, #rgBarber .radio-chip.x-sel');
+  var barber = 'h';
+  if (barberChip && barberChip.classList.contains('b-sel')) barber = 'b';
+  if (barberChip && barberChip.classList.contains('x-sel')) barber = 'x';
   var tipoChip = document.querySelector('#rgTipo .radio-chip.sel');
   var tipo = tipoChip ? tipoChip.textContent.toLowerCase() : 'novo';
   var pgtoChip = document.querySelector('#rgPgto .radio-chip.sel');
@@ -830,7 +834,7 @@ function openDatePicker() {
 }
 
 window.currentPeriod = 'mes';
-var dashboardAppts = { h: {}, b: {} };
+var dashboardAppts = { h: {}, b: {}, x: {} };
 
 var chartsInit = false;
 function goTo(screen) {
@@ -852,7 +856,7 @@ function goTo(screen) {
 }
 
 async function loadDashboardData(period) {
-  dashboardAppts = { h: {}, b: {} };
+  dashboardAppts = { h: {}, b: {}, x: {} };
   var dates = [];
   var today = new Date(currentDate);
   
@@ -892,7 +896,7 @@ async function loadDashboardData(period) {
 
 async function loadDashboardDateData(date) {
   var iso = toISO(date);
-  var barbers = ['h', 'b'];
+  var barbers = ['h', 'b', 'x'];
   for (var bi = 0; bi < barbers.length; bi++) {
     var b = barbers[bi];
     var snap = await db.collection('agendamentos').doc(iso).collection(b).get();
@@ -919,7 +923,8 @@ function updateDashboard() {
   // Collect all appointments from dashboard data (aggregated from multiple days)
   var allH = Object.values(dashboardAppts.h);
   var allB = Object.values(dashboardAppts.b);
-  var all  = allH.concat(allB);
+  var allX = Object.values(dashboardAppts.x);
+  var all  = allH.concat(allB, allX);
 
   // KPIs
   var fat  = all.reduce(function(s,a){ return s+a.price; },0);
