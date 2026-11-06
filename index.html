@@ -328,8 +328,8 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
       <div>
         <div class="field-label" style="margin-bottom:8px">Servicos</div>
         <div class="svc-grid">
-          <div class="svc-item" onclick="toggleSvc(this,50)"><div class="svc-check"></div><div class="svc-name">Corte</div><div class="svc-price">R$ 50</div></div>
-          <div class="svc-item" onclick="toggleSvc(this,50)"><div class="svc-check"></div><div class="svc-name">Barba</div><div class="svc-price">R$ 50</div></div>
+          <div class="svc-item" onclick="toggleSvc(this,60)"><div class="svc-check"></div><div class="svc-name">Corte</div><div class="svc-price">R$ 60</div></div>
+          <div class="svc-item" onclick="toggleSvc(this,60)"><div class="svc-check"></div><div class="svc-name">Barba</div><div class="svc-price">R$ 60</div></div>
           <div class="svc-item" onclick="toggleSvc(this,20)"><div class="svc-check"></div><div class="svc-name">Pezinho</div><div class="svc-price">R$ 20</div></div>
           <div class="svc-item" onclick="toggleSvc(this,10)"><div class="svc-check"></div><div class="svc-name">Sobrancelha</div><div class="svc-price">R$ 10</div></div>
         </div>
@@ -736,9 +736,21 @@ function closeModal(e) {
   if (!e || e.target === document.getElementById('modal'))
     document.getElementById('modal').style.display = 'none';
 }
+var COMBO_CORTE_BARBA_DESCONTO = 10; // Corte (60) + Barba (60) = 110
+
+function isComboCorteBarba() {
+  var nomes = [];
+  document.querySelectorAll('.svc-item.sel .svc-name').forEach(function(n){ nomes.push(n.textContent.trim()); });
+  return nomes.indexOf('Corte') >= 0 && nomes.indexOf('Barba') >= 0;
+}
+
 function toggleSvc(el, val) {
+  var comboAntes = isComboCorteBarba();
   el.classList.toggle('sel');
   modalTotal += el.classList.contains('sel') ? val : -val;
+  var comboDepois = isComboCorteBarba();
+  if (comboDepois && !comboAntes) modalTotal -= COMBO_CORTE_BARBA_DESCONTO;
+  if (comboAntes && !comboDepois) modalTotal += COMBO_CORTE_BARBA_DESCONTO;
   el.querySelector('.svc-check').textContent = el.classList.contains('sel') ? 'v' : '';
   document.getElementById('totalField').value = 'R$ ' + modalTotal;
 }
