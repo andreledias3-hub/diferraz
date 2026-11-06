@@ -268,6 +268,8 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
         <div class="pie-item"><div class="pie-dot" style="background:var(--blue)"></div><span class="pie-label">Barba</span><span class="pie-pct">32%</span></div>
         <div class="pie-item"><div class="pie-dot" style="background:var(--green)"></div><span class="pie-label">Pezinho</span><span class="pie-pct">13%</span></div>
         <div class="pie-item"><div class="pie-dot" style="background:var(--red)"></div><span class="pie-label">Sobrancelha</span><span class="pie-pct">7%</span></div>
+        <div class="pie-item"><div class="pie-dot" style="background:var(--purple)"></div><span class="pie-label">Cera Orelha</span><span class="pie-pct">0%</span></div>
+        <div class="pie-item"><div class="pie-dot" style="background:var(--teal)"></div><span class="pie-label">Cera Nariz</span><span class="pie-pct">0%</span></div>
       </div>
     </div>
     <div class="chart-card">
@@ -332,6 +334,8 @@ body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;
           <div class="svc-item" onclick="toggleSvc(this,60)"><div class="svc-check"></div><div class="svc-name">Barba</div><div class="svc-price">R$ 60</div></div>
           <div class="svc-item" onclick="toggleSvc(this,20)"><div class="svc-check"></div><div class="svc-name">Pezinho</div><div class="svc-price">R$ 20</div></div>
           <div class="svc-item" onclick="toggleSvc(this,10)"><div class="svc-check"></div><div class="svc-name">Sobrancelha</div><div class="svc-price">R$ 10</div></div>
+          <div class="svc-item" onclick="toggleSvc(this,20)"><div class="svc-check"></div><div class="svc-name">Cera Orelha</div><div class="svc-price">R$ 20</div></div>
+          <div class="svc-item" onclick="toggleSvc(this,20)"><div class="svc-check"></div><div class="svc-name">Cera Nariz</div><div class="svc-price">R$ 20</div></div>
         </div>
       </div>
       <div>
@@ -736,21 +740,26 @@ function closeModal(e) {
   if (!e || e.target === document.getElementById('modal'))
     document.getElementById('modal').style.display = 'none';
 }
-var COMBO_CORTE_BARBA_DESCONTO = 10; // Corte (60) + Barba (60) = 110
+// Combos com desconto: quando todos os itens estao selecionados, aplica o desconto
+var COMBOS = [
+  { itens:['Corte','Barba'],             desconto:10 }, // 60 + 60 = 110
+  { itens:['Cera Orelha','Cera Nariz'],  desconto:10 }  // 20 + 20 = 30
+];
 
-function isComboCorteBarba() {
+function descontoCombos() {
   var nomes = [];
   document.querySelectorAll('.svc-item.sel .svc-name').forEach(function(n){ nomes.push(n.textContent.trim()); });
-  return nomes.indexOf('Corte') >= 0 && nomes.indexOf('Barba') >= 0;
+  return COMBOS.reduce(function(total, c) {
+    var completo = c.itens.every(function(i){ return nomes.indexOf(i) >= 0; });
+    return total + (completo ? c.desconto : 0);
+  }, 0);
 }
 
 function toggleSvc(el, val) {
-  var comboAntes = isComboCorteBarba();
+  var descontoAntes = descontoCombos();
   el.classList.toggle('sel');
   modalTotal += el.classList.contains('sel') ? val : -val;
-  var comboDepois = isComboCorteBarba();
-  if (comboDepois && !comboAntes) modalTotal -= COMBO_CORTE_BARBA_DESCONTO;
-  if (comboAntes && !comboDepois) modalTotal += COMBO_CORTE_BARBA_DESCONTO;
+  modalTotal += descontoAntes - descontoCombos();
   el.querySelector('.svc-check').textContent = el.classList.contains('sel') ? 'v' : '';
   document.getElementById('totalField').value = 'R$ ' + modalTotal;
 }
@@ -1017,7 +1026,7 @@ function updateDashboard() {
   });
 
   // Count services
-  var svcCount = { Corte:0, Barba:0, Pezinho:0, Sobrancelha:0 };
+  var svcCount = { Corte:0, Barba:0, Pezinho:0, Sobrancelha:0, 'Cera Orelha':0, 'Cera Nariz':0 };
   all.forEach(function(a) {
     Object.keys(svcCount).forEach(function(k) {
       if (a.svc && a.svc.indexOf(k) >= 0) svcCount[k]++;
@@ -1104,7 +1113,7 @@ function updateDashboard() {
   } else {
     // Update pie
     if (window._pieChart) {
-      window._pieChart.data.datasets[0].data = [svcCount.Corte, svcCount.Barba, svcCount.Pezinho, svcCount.Sobrancelha];
+      window._pieChart.data.datasets[0].data = [svcCount.Corte, svcCount.Barba, svcCount.Pezinho, svcCount.Sobrancelha, svcCount['Cera Orelha'], svcCount['Cera Nariz']];
       window._pieChart.update();
     }
   }
@@ -1114,7 +1123,7 @@ function updateDashboard() {
     var title = allChartCards[ci].querySelector('.chart-title');
     if (title && title.textContent.indexOf('servicos') >= 0) {
       var pieItems = allChartCards[ci].querySelectorAll('.pie-item');
-      var pieKeys = ['Corte','Barba','Pezinho','Sobrancelha'];
+      var pieKeys = ['Corte','Barba','Pezinho','Sobrancelha','Cera Orelha','Cera Nariz'];
       pieItems.forEach(function(item, i) {
         var piePct = item.querySelector('.pie-pct');
         if (piePct && pieKeys[i]) {
@@ -1128,7 +1137,7 @@ function updateDashboard() {
 }
 
 function buildCharts(svcCount, totalSvc) {
-  var gold='#c9a84c', blue='#6a9fd8', red='#e07060', green='#6abf7c';
+  var gold='#c9a84c', blue='#6a9fd8', red='#e07060', green='#6abf7c', purple='#9b8ec4', teal='#5bb5d4';
   var border='#2a2a2a', muted='#555';
   var base = { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
     scales:{ x:{ticks:{color:muted,font:{size:10}},grid:{color:border}}, y:{ticks:{color:muted,font:{size:10}},grid:{color:border}} }
@@ -1136,24 +1145,24 @@ function buildCharts(svcCount, totalSvc) {
 
   window._pieChart = new Chart(document.getElementById('pieServ'),{
     type:'doughnut',
-    data:{ labels:['Corte','Barba','Pezinho','Sobrancelha'],
-      datasets:[{ data:[svcCount.Corte||1, svcCount.Barba, svcCount.Pezinho, svcCount.Sobrancelha],
-        backgroundColor:[gold,blue,green,red], borderColor:'#1a1a1a', borderWidth:2 }]
+    data:{ labels:['Corte','Barba','Pezinho','Sobrancelha','Cera Orelha','Cera Nariz'],
+      datasets:[{ data:[svcCount.Corte||1, svcCount.Barba, svcCount.Pezinho, svcCount.Sobrancelha, svcCount['Cera Orelha'], svcCount['Cera Nariz']],
+        backgroundColor:[gold,blue,green,red,purple,teal], borderColor:'#1a1a1a', borderWidth:2 }]
     },
     options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, cutout:'65%' }
   });
 }
 
 function initCharts() {
-  var gold='#c9a84c', blue='#6a9fd8', red='#e07060', green='#6abf7c';
+  var gold='#c9a84c', blue='#6a9fd8', red='#e07060', green='#6abf7c', purple='#9b8ec4', teal='#5bb5d4';
   var border='#2a2a2a', muted='#555';
   var base = { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
     scales:{ x:{ticks:{color:muted,font:{size:10}},grid:{color:border}}, y:{ticks:{color:muted,font:{size:10}},grid:{color:border}} }
   };
   new Chart(document.getElementById('pieServ'),{
     type:'doughnut',
-    data:{ labels:['Corte','Barba','Pezinho','Sobrancelha'],
-      datasets:[{ data:[48,32,13,7], backgroundColor:[gold,blue,green,red], borderColor:'#1a1a1a', borderWidth:2 }]
+    data:{ labels:['Corte','Barba','Pezinho','Sobrancelha','Cera Orelha','Cera Nariz'],
+      datasets:[{ data:[48,32,13,7,0,0], backgroundColor:[gold,blue,green,red,purple,teal], borderColor:'#1a1a1a', borderWidth:2 }]
     },
     options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, cutout:'65%' }
   });
